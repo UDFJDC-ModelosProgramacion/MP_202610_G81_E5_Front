@@ -1,0 +1,125 @@
+/* Paleta de colores basada en imagen_4.png */
+:root {
+  --primary-blue: #4A90E2;
+  --text-dark: #333C4E;
+  --text-gray: #6B778C;
+  --bg-light: #F8F9FA;
+  --border-gray: #D1D5DB;
+  --white: #FFFFFF;
+}
+
+.adoption-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-light);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.adoption-card {
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.adoption-title {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.adoption-subtitle {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.adoption-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--primary-blue);
+  font-size: 1rem;
+}
+
+.input-group input, 
+.adoption-textarea {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 1px solid var(--border-gray);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s;
+}
+
+.adoption-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.input-group input:focus, 
+.adoption-textarea:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+}
+
+.adoption-button {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  margin-top: 1rem;
+}
+
+.adoption-button:hover {
+  opacity: 0.9;
+}
+
+.adoption-footer {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+
+.footer-link {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.adoption-input-subtitle {
+  color: var(--text-dark); 
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-align: left;
+  padding-left: 4px;
+}
+
+.input-group-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
+}
