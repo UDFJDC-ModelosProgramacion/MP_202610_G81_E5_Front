@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
+import RegistrarEventoPage from './modules/events/RegistrarEventoPage';
+
+const Home = () => (
+  <div style={{ padding: '20px', textAlign: 'center' }}>
+    <h1>Panel de Control</h1>
+    <Link to="/registrar-evento">
+      <button>Ir a Registrar Evento</button>
+    </Link>
+  </div>
+);
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/registrar-evento" element={<RegistrarEventoPage />} />
+      </Routes>
     </div>
   );
 }
