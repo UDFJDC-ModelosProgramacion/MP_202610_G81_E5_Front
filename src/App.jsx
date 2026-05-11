@@ -1,47 +1,36 @@
-import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-import RegistrarEventoPage from './modules/lifeevents/RegistrarEventoPage';
-import RegisterForm from './modules/auth/RegisterForm';
-import RegistrarMascotaPage from './modules/pets/RegistrarMascotaPage';
-
-const Home = () => (
-  <div style={{ padding: '20px', textAlign: 'center', fontFamily: 'Segoe UI, sans-serif' }}>
-    <h1>Panel de Control</h1>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center', marginTop: '24px' }}>
-      <Link to="/crear-cuenta">
-        <button style={btnStyle}>👤 Crear Cuenta</button>
-      </Link>
-      <Link to="/registrar-mascota">
-        <button style={btnStyle}>🐾 Registrar Mascota</button>
-      </Link>
-      <Link to="/registrar-evento">
-        <button style={btnStyle}>📋 Registrar Evento</button>
-      </Link>
-    </div>
-  </div>
-);
-
-const btnStyle = {
-  padding: '12px 28px',
-  backgroundColor: '#4a76d1',
-  color: 'white',
-  border: 'none',
-  borderRadius: '8px',
-  fontSize: '16px',
-  cursor: 'pointer',
-  width: '260px'
-};
-
-function App() {
-  return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/crear-cuenta" element={<RegisterForm />} />
-        <Route path="/registrar-mascota" element={<RegistrarMascotaPage />} />
-        <Route path="/registrar-evento" element={<RegistrarEventoPage />} />
-      </Routes>
-    </div>
+{
+  "name": "mp-202610-g81-e5-front",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.16.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-icons": "^5.6.0",
+    "react-router-dom": "^7.15.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@eslint/js": "^10.0.1",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^10.2.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.5.0",
+    "vite": "^8.0.10"
+  }
+}
   );
 }
 
