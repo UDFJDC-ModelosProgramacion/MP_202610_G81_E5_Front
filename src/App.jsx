@@ -6,6 +6,7 @@ import SolicitarAdopcionPage from './modules/adoptions/SolicitarAdopcionPage'
 import CrearEventoRefugioPage from './modules/shelter/CrearEventoRefugioPage'
 import RegistrarConvivenciaPage from './modules/cohabitation/RegistrarConvivenciaPage'
 import RegisterForm from './modules/auth/RegisterForm'
+import AdoptionProcess from './modules/FormsFilter/AdoptionProcessPage'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <a href="/solicitar-adopcion">HU08: Solicitar Adopción</a>
             <a href="/crear-evento-refugio">HU09: Evento de Refugio</a>
             <a href="/registrar-convivencia">HU10: Convivencia de Prueba</a>
+            <a href="/adoptionProcess">HU11: Procesos de Adopción</a>
           </div>
         </div>
       } />
@@ -31,6 +33,7 @@ function App() {
       <Route path="/solicitar-adopcion" element={<SolicitarAdopcionPage />} />
       <Route path="/crear-evento-refugio" element={<CrearEventoRefugioPage />} />
       <Route path="/registrar-convivencia" element={<RegistrarConvivenciaPage />} />
+      <Route path="/adoptionProcess" element={<AdoptionProcess />} />
     </Routes>
   )
 }
