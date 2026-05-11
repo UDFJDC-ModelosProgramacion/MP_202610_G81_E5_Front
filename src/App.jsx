@@ -1,36 +1,29 @@
-{
-  "name": "mp-202610-g81-e5-front",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "axios": "^1.16.0",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "react-icons": "^5.6.0",
-    "react-router-dom": "^7.15.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.29.0",
-    "@eslint/js": "^10.0.1",
-    "@rolldown/plugin-babel": "^0.2.3",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.1",
-    "babel-plugin-react-compiler": "^1.0.0",
-    "eslint": "^10.2.1",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.2",
-    "globals": "^17.5.0",
-    "vite": "^8.0.10"
-  }
-}
+import React from 'react';
+import { Routes, Route } from 'react-router-dom'; 
+
+import RegistrarEventoPage from './modules/lifeevents/RegistrarEventoPage';
+import SolicitarAdopcionPage from './modules/adoptions/SolicitarAdopcionPage';
+import CrearEventoRefugioPage from './modules/shelter/CrearEventoRefugioPage';
+import RegistrarConvivenciaPage from './modules/cohabitation/RegistrarConvivenciaPage';
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={
+        <div style={{ padding: '20px', textAlign: 'center', fontFamily: 'Arial' }}>
+          <h1>Menú Principal de Adopciones</h1>
+          <p><a href="/registrar-evento-vida">HU04: Evento de Vida (Mascota)</a></p>
+          <p><a href="/solicitar-adopcion">HU08: Solicitar Adopción</a></p>
+          <p><a href="/crear-evento-refugio">HU09: Evento de Refugio</a></p>
+          <p><a href="/registrar-convivencia">HU10: Convivencia de Prueba</a></p>
+        </div>
+      } />
+
+      <Route path="/registrar-evento-vida" element={<RegistrarEventoPage />} />
+      <Route path="/solicitar-adopcion" element={<SolicitarAdopcionPage />} />
+      <Route path="/crear-evento-refugio" element={<CrearEventoRefugioPage />} />
+      <Route path="/registrar-convivencia" element={<RegistrarConvivenciaPage />} />
+    </Routes>
   );
 }
 
