@@ -6,7 +6,8 @@ import {
   MdEvent, 
   MdAssignment, 
   MdStore, 
-  MdHealthAndSafety 
+  MdHealthAndSafety,
+  MdManageSearch 
 } from 'react-icons/md';
 import './Home.css';
 
@@ -32,8 +33,8 @@ const HomePage = () => {
     },
     { 
       path: '/solicitar-adopcion', 
-      title: 'Adopciones', 
-      desc: 'Iniciar procesos de solicitud', 
+      title: 'Solicitudes', 
+      desc: 'Iniciar procesos de adopción', 
       icon: <MdAssignment className="card-icon" /> 
     },
     { 
@@ -48,6 +49,13 @@ const HomePage = () => {
       desc: 'Pruebas de convivencia', 
       icon: <MdHealthAndSafety className="card-icon" /> 
     },
+    // AQUÍ ESTÁ LA NUEVA HU11
+    { 
+      path: '/procesos-adopcion', 
+      title: 'Procesos de Adopción', 
+      desc: 'Filtrar y consultar estados', 
+      icon: <MdManageSearch className="card-icon" /> 
+    }
   ];
 
   return (
