@@ -1,5 +1,4 @@
 import React from 'react';
-// ¡OJO! Quitamos BrowserRouter as Router de aquí
 import { Routes, Route } from 'react-router-dom'; 
 
 import RegistrarEventoPage from './modules/lifeevents/RegistrarEventoPage';
