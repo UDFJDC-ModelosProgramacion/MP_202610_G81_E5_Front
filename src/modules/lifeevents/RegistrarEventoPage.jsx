@@ -9,14 +9,14 @@ import { createLifeEvent } from '../../services/LifeEventService';
 import { useNavigate } from 'react-router-dom';
 
 const RegistrarEventoPage = () => {
-  // Ahora guardamos los IDs (que son numéricos en tu Base de Datos)
+
   const [tipoEventoId, setTipoEventoId] = useState('1'); 
   const [mascotaId, setMascotaId] = useState('1');
   const [fecha, setFecha] = useState('2026-04-12'); 
   const [descripcion, setDescripcion] = useState('');
   const navigate = useNavigate();
 
-  // Estos datos eventualmente los traerás con un GET desde Spring Boot
+ 
   const opcionesEvento = [
     { value: '1', label: 'Adopción' },
     { value: '2', label: 'Vacunación' },
@@ -29,20 +29,20 @@ const RegistrarEventoPage = () => {
   ];
 
   const handleGuardar = async () => {
-    // 1. Construimos el JSON EXACTAMENTE como lo espera la entidad Java
+   
     const payload = {
       description: descripcion,
       date: fecha, 
       pet: { id: parseInt(mascotaId) },
       type: { id: parseInt(tipoEventoId) },
-      veterinarian: { id: 1 } // IMPORTANTE: Tu backend exige que no sea null
+      veterinarian: { id: 1 } 
     };
 
     try {
       console.log('Enviando a Spring Boot:', payload);
       const response = await createLifeEvent(payload);
       alert('¡Evento creado con éxito! ID: ' + response.id);
-      // Aquí podrías limpiar el formulario o redirigir al usuario
+
     } catch (error) {
       alert('Hubo un error al guardar. Revisa la consola.');
     }
