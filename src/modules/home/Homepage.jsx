@@ -7,7 +7,8 @@ import {
   MdAssignment, 
   MdStore, 
   MdHealthAndSafety,
-  MdManageSearch 
+  MdManageSearch,
+  MdHistory // Importamos el icono para el historial
 } from 'react-icons/md';
 import './Home.css';
 
@@ -27,9 +28,15 @@ const HomePage = () => {
     },
     { 
       path: '/registrar-evento-vida', 
-      title: 'Historia de Vida', 
-      desc: 'Momentos clave de la mascota', 
+      title: 'Registrar Evento', 
+      desc: 'Añadir hitos a la mascota', 
       icon: <MdEvent className="card-icon" /> 
+    },
+    { 
+      path: '/consultar-eventos/1',
+      title: 'Consultar Eventos de Vida', 
+      desc: 'Ver línea de tiempo de eventos', 
+      icon: <MdHistory className="card-icon" /> 
     },
     { 
       path: '/solicitar-adopcion', 
@@ -49,7 +56,6 @@ const HomePage = () => {
       desc: 'Pruebas de convivencia', 
       icon: <MdHealthAndSafety className="card-icon" /> 
     },
-    // AQUÍ ESTÁ LA NUEVA HU11
     { 
       path: '/procesos-adopcion', 
       title: 'Procesos de Adopción', 
