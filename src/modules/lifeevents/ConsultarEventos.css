@@ -1,0 +1,47 @@
+/* Hereda .page-container, .event-card y .card-header de tu archivo anterior */
+
+.list-body {
+    text-align: left !important; /* Alineamos el texto a la izquierda para la lista */
+    padding: 10px 0;
+}
+
+.timeline-container {
+    padding: 10px 20px;
+}
+
+.timeline-item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+}
+
+.timeline-date {
+    font-size: 12px;
+    color: #4a76d1; /* Azul de la cabecera */
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.timeline-content h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.timeline-content p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #777;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+}

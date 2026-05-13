@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import HomePage from './modules/home/HomePage'
 import RegistrarMascotaPage from './modules/pets/RegistrarMascotaPage'
 import RegistrarEventoPage from './modules/lifeevents/RegistrarEventoPage'
+import ConsultarEventosPage from './modules/lifeevents/ConsultarEventosPage'
 import SolicitarAdopcionPage from './modules/adoptions/SolicitarAdopcionPage'
 import CrearEventoRefugioPage from './modules/shelter/CrearEventoRefugioPage'
 import RegistrarConvivenciaPage from './modules/cohabitation/RegistrarConvivenciaPage'
@@ -16,6 +17,7 @@ function App() {
       <Route path="/registrar-usuario" element={<RegisterForm />} />
       <Route path="/registrar-mascota" element={<RegistrarMascotaPage />} />
       <Route path="/registrar-evento-vida" element={<RegistrarEventoPage />} />
+      <Route path="/consultar-eventos/:id" element={<ConsultarEventosPage />} />
       <Route path="/solicitar-adopcion" element={<SolicitarAdopcionPage />} />
       <Route path="/crear-evento-refugio" element={<CrearEventoRefugioPage />} />
       <Route path="/registrar-convivencia" element={<RegistrarConvivenciaPage />} />
