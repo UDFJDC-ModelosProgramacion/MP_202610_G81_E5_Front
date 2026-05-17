@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  --ch-blue:       #3d6fd4;
+  --ch-blue-dark:  #2f5ab8;
+  --ch-blue-bg:    #e8eef9;
+  --ch-white:      #ffffff;
+  --ch-border:     #d0d7e3;
+  --ch-text:       #1a1f2e;
+  --ch-muted:      #6b7280;
+  --ch-label-red:  #c0392b;
+  --ch-green:      #4a9d6f;
+  --ch-green-lt:   #e6f4ed;
+  --ch-yellow:     #f5a623;
+  --ch-yellow-lt:  #fef8ec;
+  --ch-red:        #c0392b;
+  --ch-red-lt:     #fdecea;
+  --ch-purple:     #7a8fc0;
+  --ch-purple-lt:  #eef0fb;
+  --ch-radius:     12px;
+  --ch-shadow:     0 2px 12px rgba(61,111,212,.10);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', system-ui, sans-serif;
+  background: var(--ch-blue-bg);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Wrapper ── */
+.ch-page {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  background: var(--ch-blue-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top Bar ── */
+.ch-topbar {
+  background: var(--ch-blue);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 54px;
+  flex-shrink: 0;
+}
+.ch-topbar__btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  transition: opacity .15s;
+}
+.ch-topbar__btn:hover { opacity: .7; }
+.ch-topbar__title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* ── Body ── */
+.ch-body {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px 48px;
+  gap: 14px;
+}
+
+/* ── Ícono ── */
+.ch-icon-wrap { display: flex; justify-content: center; }
+.ch-icon-circle {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: #f0f2f5;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+}
+
+.ch-section-title {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--ch-text);
+}
+
+/* ── Card base ── */
+.ch-card {
+  background: var(--ch-white);
+  border-radius: var(--ch-radius);
+  border: 1.5px solid var(--ch-border);
+  box-shadow: var(--ch-shadow);
+  padding: 18px 16px;
+  animation: chFadeUp .3s ease both;
+}
+@keyframes chFadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ch-card__title {
+  font-size: .72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--ch-muted);
+  margin-bottom: 14px;
+}
+
+/* ── DateRangePicker ── */
+.ch-date-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.ch-field { display: flex; flex-direction: column; gap: 5px; }
+
+.ch-field__label {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--ch-label-red);
+}
+
+.ch-field input {
+  font-family: 'Nunito', sans-serif;
+  font-size: .92rem;
+  color: var(--ch-text);
+  background: #f9fafc;
+  border: 1.5px solid var(--ch-border);
+  border-radius: var(--ch-radius);
+  padding: 10px 13px;
+  outline: none;
+  width: 100%;
+  transition: border-color .18s, box-shadow .18s;
+}
+.ch-field input:focus {
+  border-color: var(--ch-blue);
+  box-shadow: 0 0 0 3px rgba(61,111,212,.13);
+  background: #fff;
+}
+.ch-field input:disabled {
+  background: #f0f2f5;
+  color: var(--ch-muted);
+  cursor: not-allowed;
+  border-color: var(--ch-border);
+}
+
+.ch-readonly-note {
+  font-size: .72rem;
+  color: var(--ch-muted);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── Cuenta regresiva ── */
+.ch-countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+}
+
+.ch-countdown__number {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ch-blue);
+}
+.ch-countdown__number--urgent { color: var(--ch-red); }
+.ch-countdown__number--done   { color: var(--ch-green); }
+
+.ch-countdown__label {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--ch-muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+/* Barra de progreso */
+.ch-progress-wrap {
+  width: 100%;
+  background: var(--ch-border);
+  border-radius: 99px;
+  height: 10px;
+  overflow: hidden;
+}
+.ch-progress-bar {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--ch-blue);
+  transition: width .6s ease;
+}
+.ch-progress-bar--urgent { background: var(--ch-red); }
+.ch-progress-bar--done   { background: var(--ch-green); }
+
+.ch-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: .7rem;
+  color: var(--ch-muted);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* ── Badge estado ── */
+.ch-badge {
+  font-size: .7rem;
+  font-weight: 800;
+  padding: 4px 11px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+.ch-badge--activo    { background: var(--ch-green-lt);  color: #2e7d54; }
+.ch-badge--inactivo  { background: var(--ch-yellow-lt); color: #a06000; }
+.ch-badge--finalizado{ background: var(--ch-purple-lt); color: #4a5aa0; }
+.ch-badge--cancelado { background: var(--ch-red-lt);    color: var(--ch-red); }
+.ch-badge--default   { background: #f0f2f5;             color: var(--ch-muted); }
+
+/* ── Info veterinario / proceso ── */
+.ch-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+}
+.ch-info-item { display: flex; flex-direction: column; gap: 2px; }
+.ch-info-item__label {
+  font-size: .65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--ch-muted);
+}
+.ch-info-item__value {
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--ch-text);
+}
+
+/* ── Feed de observaciones ── */
+.ch-feed { display: flex; flex-direction: column; gap: 10px; }
+
+.ch-feed-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--ch-border);
+}
+.ch-feed-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.ch-feed-item__avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--ch-blue-bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  border: 1.5px solid var(--ch-border);
+}
+
+.ch-feed-item__body { flex: 1; }
+.ch-feed-item__author {
+  font-size: .8rem;
+  font-weight: 800;
+  color: var(--ch-text);
+}
+.ch-feed-item__role {
+  font-size: .68rem;
+  color: var(--ch-muted);
+  font-weight: 600;
+  margin-left: 5px;
+}
+.ch-feed-item__text {
+  font-size: .85rem;
+  color: var(--ch-text);
+  margin-top: 3px;
+  line-height: 1.45;
+}
+.ch-feed-item__date {
+  font-size: .68rem;
+  color: var(--ch-muted);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.ch-feed-empty {
+  text-align: center;
+  font-size: .85rem;
+  color: var(--ch-muted);
+  padding: 16px 0;
+}
+
+/* ── Estado carga / error ── */
+.ch-state { text-align: center; padding: 60px 24px; color: var(--ch-muted); }
+.ch-state__icon  { font-size: 2.5rem; margin-bottom: 10px; opacity: .5; }
+.ch-state__title { font-size: 1rem; font-weight: 800; color: var(--ch-text); margin-bottom: 5px; }
+.ch-state__text  { font-size: .85rem; }
+
+.ch-spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--ch-border);
+  border-top-color: var(--ch-blue);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Select trial (si hay varios) ── */
+.ch-field select {
+  font-family: 'Nunito', sans-serif;
+  font-size: .92rem;
+  color: var(--ch-text);
+  background: #f9fafc;
+  border: 1.5px solid var(--ch-border);
+  border-radius: var(--ch-radius);
+  padding: 10px 13px;
+  outline: none;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .18s;
+}
+.ch-field select:focus {
+  border-color: var(--ch-blue);
+  box-shadow: 0 0 0 3px rgba(61,111,212,.13);
+}
+.ch-field--select { position: relative; }
+.ch-field--select::after {
+  content: "▾";
+  position: absolute;
+  right: 14px; bottom: 13px;
+  color: var(--ch-muted);
+  pointer-events: none;
+  font-size: .85rem;
+}
