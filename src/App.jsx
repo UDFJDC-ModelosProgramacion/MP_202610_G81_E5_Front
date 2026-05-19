@@ -7,6 +7,16 @@ import RegistrarConvivenciaPage from './modules/cohabitation/RegistrarConvivenci
 import RegisterForm from './modules/auth/RegisterForm';
 import RegistrarMascotaPage from './modules/pets/RegistrarMascotaPage';
 import ConsultarMascotaPage from './modules/pets/ConsultarMascotaPage';
+import { Routes, Route } from 'react-router-dom'
+import HomePage from './modules/home/HomePage'
+import RegistrarMascotaPage from './modules/pets/RegistrarMascotaPage'
+import RegistrarEventoPage from './modules/lifeevents/RegistrarEventoPage'
+import ConsultarEventosPage from './modules/lifeevents/ConsultarEventosPage'
+import SolicitarAdopcionPage from './modules/adoptions/SolicitarAdopcionPage'
+import CrearEventoRefugioPage from './modules/shelter/CrearEventoRefugioPage'
+import RegistrarConvivenciaPage from './modules/cohabitation/RegistrarConvivenciaPage'
+import RegisterForm from './modules/auth/RegisterForm'
+import AdoptionProcessPage from './modules/FormsFilter/AdoptionProcessPage'
 
 function App() {
   return (
@@ -23,7 +33,12 @@ function App() {
           <p><a href="/consultar-mascota">HU03: Consultar Mascota</a></p>
         </div>
       } />
+      <Route path="/" element={<HomePage />} />
+      
+      <Route path="/registrar-usuario" element={<RegisterForm />} />
+      <Route path="/registrar-mascota" element={<RegistrarMascotaPage />} />
       <Route path="/registrar-evento-vida" element={<RegistrarEventoPage />} />
+      <Route path="/consultar-eventos/:id" element={<ConsultarEventosPage />} />
       <Route path="/solicitar-adopcion" element={<SolicitarAdopcionPage />} />
       <Route path="/crear-evento-refugio" element={<CrearEventoRefugioPage />} />
       <Route path="/registrar-convivencia" element={<RegistrarConvivenciaPage />} />
@@ -31,7 +46,7 @@ function App() {
       <Route path="/registrar-mascota" element={<RegistrarMascotaPage />} />
       <Route path="/consultar-mascota" element={<ConsultarMascotaPage />} />
     </Routes>
-  );
+  )
 }
 
-export default App;
+export default App
