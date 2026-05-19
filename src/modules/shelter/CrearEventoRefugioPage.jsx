@@ -1,72 +1,293 @@
-import React, { useState } from 'react';
-import { MdArrowBack, MdCheck } from 'react-icons/md';
-import Input from '../../components/ui/Input';
-import Button from '../../components/ui/Button';
-import '../lifeevents/RegistrarEvento.css'; 
-import pawIcon from '../../assets/paw-icon.png';
-import { createShelterEvent } from '../../services/ShelterEventService';
-import { useNavigate } from 'react-router-dom';
+import React,{useState,useEffect} from 'react';
 
-const CrearEventoRefugioPage = () => {
-  const [nombre, setNombre] = useState('');
-  const [fecha, setFecha] = useState('');
-  const [tipo, setTipo] = useState('');
-  const [refugioId, setRefugioId] = useState('1');
-  const navigate = useNavigate();
+import {
+MdArrowBack,
+MdCheck,
+MdStore
+}
+from 'react-icons/md';
 
-  const handleGuardar = async () => {
-    const selectedDate = new Date(fecha);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+import {useNavigate} from 'react-router-dom';
 
-    if (selectedDate < today) {
-        alert('Error: La fecha no puede estar en el pasado.');
-        return;
-    }
+import {createShelterEvent}
+from '../../services/ShelterEventService';
 
-    const payload = {
-      name: nombre,
-      date: fecha,
-      type: tipo,
-      shelterId: parseInt(refugioId)
-    };
+import './CrearEventoRefugio.css';
 
-    try {
-      await createShelterEvent(payload);
-      alert('¡Evento de refugio creado con éxito!');
-      navigate('/');
-    } catch (error) {
-      alert('Hubo un error al crear el evento.');
-    }
-  };
+const CrearEventoRefugioPage=()=>{
 
-  return (
-    <div className="page-container">
-      <div className="event-card">
-        <div className="card-header">
-          <MdArrowBack className="header-icon" onClick={() => navigate('/')} />
-          <h2>Evento Refugio</h2>
-          <MdCheck className="header-icon" />
-        </div>
+const navigate=useNavigate();
 
-        <div className="card-body">
-          <div className="paw-icon-container">
-            <img src={pawIcon} alt="Huella" className="paw-icon" />
-          </div>
-          <h3>Crear Evento</h3>
+const [nombre,setNombre]=useState('');
+const [fecha,setFecha]=useState('');
+const [tipo,setTipo]=useState('');
+const [loading,setLoading]=useState(false);
 
-          <form onSubmit={(e) => e.preventDefault()}>
-            <Input label="Nombre del Evento" required value={nombre} onChange={(e) => setNombre(e.target.value)} />
-            <Input label="Fecha programada" required type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} />
-            <Input label="Tipo de Evento" required placeholder="Ej. Jornada de Adopción" value={tipo} onChange={(e) => setTipo(e.target.value)} />
-            <Input label="ID del Refugio" required type="number" value={refugioId} onChange={(e) => setRefugioId(e.target.value)} />
+const [refugioId,setRefugioId]=useState('');
 
-            <Button onClick={handleGuardar}>Guardar Evento</Button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
+const [refugios,setRefugios]=useState([]);
+
+useEffect(()=>{
+
+fetch('/api/shelters')
+
+.then(r=>r.json())
+
+.then(data=>{
+
+const opciones=data.map(s=>({
+
+value:String(s.id),
+label:s.name
+
+}));
+
+setRefugios(opciones);
+
+if(opciones.length){
+
+setRefugioId(
+opciones[0].value
+);
+
+}
+
+})
+
+.catch(()=>{
+
+setRefugios([]);
+
+});
+
+},[]);
+
+const handleGuardar=async()=>{
+
+const selectedDate=
+new Date(fecha);
+
+const today=
+new Date();
+
+today.setHours(
+0,0,0,0
+);
+
+if(selectedDate<today){
+
+alert(
+'La fecha no puede estar en el pasado'
+);
+
+return;
+
+}
+
+const payload={
+
+name:nombre,
+
+date:fecha,
+
+type:tipo,
+
+shelter:{
+id:Number(refugioId)
+}
+
 };
+
+try{
+
+setLoading(true);
+
+await createShelterEvent(
+payload
+);
+
+alert(
+'Evento creado'
+);
+
+navigate('/home');
+
+}
+
+catch(error){
+
+alert(
+'Error al crear evento'
+);
+
+}
+
+finally{
+
+setLoading(false);
+
+}
+
+};
+
+return(
+
+<div className="layout">
+
+<div className="sidebar">
+
+<button className="menuButton">
+
+☰
+
+</button>
+
+</div>
+
+<div className="content">
+
+<nav className="navbar">
+
+<div className="logo">
+
+🐾 PawHub
+
+</div>
+
+<div className="profile">
+
+DM
+
+</div>
+
+</nav>
+
+<div className="heroMini">
+
+<div>
+
+<div className="tag">
+
+Eventos Refugio
+
+</div>
+
+<h1>
+
+Crear Evento 🏪
+
+</h1>
+
+<p>
+
+Programa jornadas y actividades
+del refugio.
+
+</p>
+
+</div>
+
+</div>
+
+<div className="formCard">
+
+<div className="cardTop">
+
+<MdArrowBack
+className="topIcon"
+onClick={()=>navigate('/home')}
+/>
+
+</div>
+
+<div className="formGrid">
+
+<input
+placeholder="Nombre del evento"
+value={nombre}
+onChange={(e)=>
+setNombre(
+e.target.value
+)
+}
+/>
+
+<input
+type="date"
+value={fecha}
+onChange={(e)=>
+setFecha(
+e.target.value
+)
+}
+/>
+
+<input
+placeholder="Tipo de evento"
+value={tipo}
+onChange={(e)=>
+setTipo(
+e.target.value
+)
+}
+/>
+
+<select
+value={refugioId}
+onChange={(e)=>
+setRefugioId(
+e.target.value
+)
+}
+>
+
+{
+
+refugios.map(r=>(
+
+<option
+key={r.value}
+value={r.value}
+>
+
+{r.label}
+
+</option>
+
+))
+
+}
+
+</select>
+
+</div>
+
+<button
+className="saveButton"
+onClick={handleGuardar}
+disabled={loading}
+>
+
+{
+
+loading
+?
+'Guardando...'
+:
+'Crear Evento'
+
+}
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+)
+
+}
 
 export default CrearEventoRefugioPage;

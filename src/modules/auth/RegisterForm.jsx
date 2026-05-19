@@ -14,6 +14,7 @@ const RegisterForm = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [focused, setFocused] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,79 +50,122 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="register-container">
-      <div className="register-card">
-        <h2 className="register-title">Crear Cuenta</h2>
-        <p className="register-subtitle">Regístrate para acceder al sistema</p>
+  <div className="register-root">
+    <div className="register-bg">
+      <div className="register-orb register-orb--1" />
+      <div className="register-orb register-orb--2" />
+      <div className="register-orb register-orb--3" />
+      <div className="register-grid" />
+    </div>
 
-        {success ? (
-          <div className="register-success">
-            ✅ ¡Cuenta creada exitosamente! Redirigiendo...
+    <div className="register-split">
+      <div className="register-brand">
+        <div className="register-brand__paw">🐾</div>
+        <h1 className="register-brand__name">PawHub</h1>
+        <p className="register-brand__tagline">
+          Únete a nuestra comunidad<br />y encuentra a tu compañero ideal.
+        </p>
+      </div>
+
+      <div className="register-card">
+        <div className="register-card__inner">
+          <div className="register-card__header">
+            <h2 className="register-card__title">Crear Cuenta</h2>
+            <p className="register-card__sub">Regístrate para comenzar</p>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="register-form-body">
-            <div className="input-group">
-              <span className="input-icon">👤</span>
+
+          <form className="register-form" onSubmit={handleSubmit}>
+            
+            {/* Campo Nombre */}
+            <div className={`register-field ${focused === 'name' ? 'register-field--active' : ''} ${formData.name ? 'register-field--filled' : ''}`}>
+              <label className="register-field__label">Nombre completo</label>
               <input
+                className="register-field__input"
                 type="text"
                 name="name"
-                placeholder="Nombre completo"
                 value={formData.name}
                 onChange={handleChange}
-                required
+                onFocus={() => setFocused('name')}
+                onBlur={() => setFocused('')}
+                autoComplete="name"
               />
+              <div className="register-field__line" />
             </div>
 
-            <div className="input-group">
-              <span className="input-icon">📧</span>
+            {/* Campo Correo */}
+            <div className={`register-field ${focused === 'email' ? 'register-field--active' : ''} ${formData.email ? 'register-field--filled' : ''}`}>
+              <label className="register-field__label">Correo electrónico</label>
               <input
+                className="register-field__input"
                 type="email"
                 name="email"
-                placeholder="Correo electrónico"
                 value={formData.email}
                 onChange={handleChange}
-                required
+                onFocus={() => setFocused('email')}
+                onBlur={() => setFocused('')}
+                autoComplete="email"
               />
+              <div className="register-field__line" />
             </div>
 
-            <div className="input-group">
-              <span className="input-icon">🔒</span>
+            {/* Campo Contraseña */}
+            <div className={`register-field ${focused === 'password' ? 'register-field--active' : ''} ${formData.password ? 'register-field--filled' : ''}`}>
+              <label className="register-field__label">Contraseña</label>
               <input
+                className="register-field__input"
                 type="password"
                 name="password"
-                placeholder="Contraseña"
                 value={formData.password}
                 onChange={handleChange}
-                required
+                onFocus={() => setFocused('password')}
+                onBlur={() => setFocused('')}
+                autoComplete="new-password"
               />
+              <div className="register-field__line" />
             </div>
-
-            <div className="input-group">
-              <span className="input-icon">🔒</span>
+{/* Campo Confirmar Contraseña  */}
+            <div className={`register-field ${focused === 'confirmPassword' ? 'register-field--active' : ''} ${formData.confirmPassword ? 'register-field--filled' : ''}`}>
+              <label className="register-field__label">Confirmar contraseña</label>
               <input
+                className="register-field__input"
                 type="password"
                 name="confirmPassword"
-                placeholder="Confirmar contraseña"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                required
+                onFocus={() => setFocused('confirmPassword')}
+                onBlur={() => setFocused('')}
+                autoComplete="new-password"
               />
+              <div className="register-field__line" />
             </div>
+            {/* Manejo de Errores */}
+            {error && (
+              <div className="register-error">
+                <span>⚠</span> {error}
+              </div>
+            )}
 
-            {error && <p className="register-error">{error}</p>}
-
-            <button type="submit" className="register-button" disabled={loading}>
-              {loading ? 'Creando cuenta...' : 'Crear Cuenta'}
+            {/* Botón de Submit */}
+            <button className="register-btn" type="submit" disabled={loading}>
+              <span className="register-btn__text">
+                {loading ? 'Creando cuenta…' : 'Crear Cuenta'}
+              </span>
+              {!loading && <span className="register-btn__arrow">→</span>}
             </button>
           </form>
-        )}
 
-        <div className="register-footer">
-          <p>¿Ya tienes cuenta? <Link to="/login" className="footer-link">Iniciar sesión</Link></p>
+          {/* Footer del formulario */}
+          <div className="register-footer">
+            <span>¿Ya tienes cuenta?</span>
+            <button className="register-link" onClick={() => navigate('/')}>
+              Inicia sesión aquí
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default RegisterForm;

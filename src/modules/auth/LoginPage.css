@@ -2,25 +2,25 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-.register-root {
+.login-root {
   min-height: 100vh;
   display: flex;
   align-items: stretch;
-  background: #faf7f2; 
+  background: #faf7f2; /* Fondo crema suave en lugar de negro */
   font-family: 'DM Sans', sans-serif;
   overflow: hidden;
   position: relative;
 }
 
 /* ── Animated background ── */
-.register-bg {
+.login-bg {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
 }
 
-.register-orb {
+.login-orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
@@ -28,21 +28,21 @@
   animation: drift 12s ease-in-out infinite;
 }
 
-.register-orb--1 {
+.login-orb--1 {
   width: 600px; height: 600px;
-  background: #e76f51; 
+  background: #e76f51; /* Terracota cálido */
   top: -200px; left: -100px;
   animation-delay: 0s;
 }
-.register-orb--2 {
+.login-orb--2 {
   width: 500px; height: 500px;
-  background: #2a9d8f; 
+  background: #2a9d8f; /* Verde naturaleza */
   bottom: -150px; right: -100px;
   animation-delay: -4s;
 }
-.register-orb--3 {
+.login-orb--3 {
   width: 300px; height: 300px;
-  background: #e9c46a; 
+  background: #e9c46a; /* Amarillo suave */
   top: 40%; left: 40%;
   animation-delay: -8s;
   opacity: 0.12;
@@ -54,8 +54,17 @@
   66% { transform: translate(-20px, 30px) scale(0.97); }
 }
 
+.login-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
 /* ── Layout ── */
-.register-split {
+.login-split {
   position: relative;
   z-index: 1;
   display: flex;
@@ -64,7 +73,7 @@
 }
 
 /* ── Brand side ── */
-.register-brand {
+.login-brand {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -72,11 +81,11 @@
   padding: 80px 60px;
 }
 
-.register-brand__paw {
+.login-brand__paw {
   font-size: 3rem;
   margin-bottom: 24px;
   animation: float 4s ease-in-out infinite;
-  color: #e76f51; 
+  color: #e76f51; /* Huella color terracota */
 }
 
 @keyframes float {
@@ -84,40 +93,67 @@
   50% { transform: translateY(-10px); }
 }
 
-.register-brand__name {
+.login-brand__name {
   font-family: 'DM Sans', serif;
   font-size: 4.5rem;
   font-weight: 700;
-  color: #3e2723; 
+  color: #3e2723; /* Café espresso (reemplaza al blanco) */
   letter-spacing: -2px;
   line-height: 1;
   margin-bottom: 20px;
 }
 
-.register-brand__tagline {
+.login-brand__tagline {
   font-family: 'DM Sans', serif;
   font-style: italic;
   font-size: 1.4rem;
   font-weight: 300;
-  color: rgba(62, 39, 35, 0.6); 
+  color: rgba(62, 39, 35, 0.6); /* Café semi-transparente */
   line-height: 1.6;
   margin-bottom: 60px;
 }
 
+.login-stats {
+  display: flex;
+  gap: 40px;
+}
+
+.login-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.login-stat__num {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #3e2723;
+  letter-spacing: -1px;
+}
+
+.login-stat__label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(62, 39, 35, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
 /* ── Card side ── */
-.register-card {
-  width: 450px;
+.login-card {
+  width: 480px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px 32px;
-  background: rgba(255, 255, 255, 0.4); 
-  border-left: 1px solid rgba(0, 0, 0, 0.05); 
+  background: rgba(255, 255, 255, 0.4); /* Cristal claro */
+  border-left: 1px solid rgba(0, 0, 0, 0.05); /* Borde sutil oscuro */
   backdrop-filter: blur(20px);
 }
 
-.register-card__inner {
+.login-card__inner {
   width: 100%;
   max-width: 360px;
   animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -128,11 +164,11 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.register-card__header {
+.login-card__header {
   margin-bottom: 48px;
 }
 
-.register-card__title {
+.login-card__title {
   font-family: 'DM Sans', serif;
   font-size: 2rem;
   font-weight: 400;
@@ -141,35 +177,26 @@
   margin-bottom: 8px;
 }
 
-.register-card__sub {
+.login-card__sub {
   font-size: 0.9rem;
   color: rgba(62, 39, 35, 0.6);
   font-weight: 300;
 }
 
-.register-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
 /* ── Form fields ── */
-.register-form {
+.login-form {
   display: flex;
   flex-direction: column;
   gap: 32px;
   margin-bottom: 36px;
 }
 
-.register-field {
+.login-field {
   position: relative;
   padding-top: 20px;
 }
 
-.register-field__label {
+.login-field__label {
   position: absolute;
   top: 20px;
   left: 0;
@@ -180,19 +207,19 @@
   pointer-events: none;
 }
 
-.register-field--active .register-field__label,
-.register-field--filled .register-field__label {
+.login-field--active .login-field__label,
+.login-field--filled .login-field__label {
   top: 0;
   font-size: 0.7rem;
   color: rgba(62, 39, 35, 0.7);
   letter-spacing: 0.05em;
 }
 
-.register-field--active .register-field__label {
-  color: #e76f51; 
+.login-field--active .login-field__label {
+  color: #e76f51; /* Color foco terracota */
 }
 
-.register-field__input {
+.login-field__input {
   width: 100%;
   background: transparent;
   border: none;
@@ -205,7 +232,7 @@
   caret-color: #e76f51;
 }
 
-.register-field__line {
+.login-field__line {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -215,7 +242,7 @@
   transition: background 0.2s;
 }
 
-.register-field__line::after {
+.login-field__line::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0;
@@ -224,10 +251,10 @@
   transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.register-field--active .register-field__line::after { width: 100%; }
+.login-field--active .login-field__line::after { width: 100%; }
 
 /* ── Error ── */
-.register-error {
+.login-error {
   background: rgba(220, 53, 69, 0.1);
   border: 1px solid rgba(220, 53, 69, 0.2);
   color: #dc3545;
@@ -240,10 +267,10 @@
 }
 
 /* ── Button ── */
-.register-btn {
+.login-btn {
   width: 100%;
   height: 52px;
-  background: #e76f51; 
+  background: #e76f51; /* Botón terracota */
   border: none;
   border-radius: 12px;
   color: #fff;
@@ -261,7 +288,7 @@
   margin-top: 8px;
 }
 
-.register-btn::before {
+.login-btn::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -269,18 +296,28 @@
   transition: background 0.2s;
 }
 
-.register-btn:hover::before { background: rgba(0,0,0,0.05); }
-.register-btn:active { transform: scale(0.98); }
-.register-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.login-btn:hover::before { background: rgba(0,0,0,0.05); }
+.login-btn:active { transform: scale(0.98); }
+.login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-.register-btn__arrow {
+.login-btn__arrow {
   font-size: 1.1rem;
   transition: transform 0.2s;
 }
-.register-btn:hover .register-btn__arrow { transform: translateX(4px); }
+.login-btn:hover .login-btn__arrow { transform: translateX(4px); }
+
+.login-btn__spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── Footer ── */
-.register-footer {
+.login-footer {
   text-align: center;
   font-size: 0.85rem;
   color: rgba(62, 39, 35, 0.6);
@@ -290,10 +327,10 @@
   gap: 8px;
 }
 
-.register-link {
+.login-link {
   background: none;
   border: none;
-  color: #e76f51; 
+  color: #e76f51; /* Enlace terracota */
   font-family: 'DM Sans', sans-serif;
   font-size: 0.85rem;
   font-weight: 500;
@@ -302,19 +339,20 @@
   text-underline-offset: 3px;
   transition: opacity 0.15s;
 }
-.register-link:hover { opacity: 0.7; }
+.login-link:hover { opacity: 0.7; }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .register-split { flex-direction: column; }
-  .register-brand {
+  .login-split { flex-direction: column; }
+  .login-brand {
     padding: 60px 32px 40px;
     align-items: center;
     text-align: center;
   }
-  .register-brand__name { font-size: 3rem; }
-  .register-card {
-    width: 100%;
+  .login-brand__name { font-size: 3rem; }
+  .login-stats { justify-content: center; }
+  .login-card {
+    width: 400px;
     border-left: none;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
     padding: 40px 24px;

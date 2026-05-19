@@ -1,87 +1,240 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  MdPersonAdd, 
-  MdPets, 
-  MdEvent, 
-  MdAssignment, 
-  MdStore, 
-  MdHealthAndSafety,
-  MdManageSearch,
-  MdHistory // Importamos el icono para el historial
-} from 'react-icons/md';
+
+import {
+MdPersonAdd,
+MdPets,
+MdEvent,
+MdAssignment,
+MdStore,
+MdHealthAndSafety,
+MdManageSearch,
+MdHistory,
+MdHouse,
+MdMenu
+}
+from 'react-icons/md';
+
 import './Home.css';
 
-const HomePage = () => {
-  const menuItems = [
-    { 
-      path: '/registrar-usuario', 
-      title: 'Usuarios', 
-      desc: 'Gestionar cuentas y perfiles', 
-      icon: <MdPersonAdd className="card-icon" /> 
-    },
-    { 
-      path: '/registrar-mascota', 
-      title: 'Mascotas', 
-      desc: 'Registrar nuevos peluditos', 
-      icon: <MdPets className="card-icon" /> 
-    },
-    { 
-      path: '/registrar-evento-vida', 
-      title: 'Registrar Evento', 
-      desc: 'Añadir hitos a la mascota', 
-      icon: <MdEvent className="card-icon" /> 
-    },
-    { 
-      path: '/consultar-eventos/1',
-      title: 'Consultar Eventos de Vida', 
-      desc: 'Ver línea de tiempo de eventos', 
-      icon: <MdHistory className="card-icon" /> 
-    },
-    { 
-      path: '/solicitar-adopcion', 
-      title: 'Solicitudes', 
-      desc: 'Iniciar procesos de adopción', 
-      icon: <MdAssignment className="card-icon" /> 
-    },
-    { 
-      path: '/crear-evento-refugio', 
-      title: 'Eventos Refugio', 
-      desc: 'Jornadas y recolecciones', 
-      icon: <MdStore className="card-icon" /> 
-    },
-    { 
-      path: '/registrar-convivencia', 
-      title: 'Seguimiento', 
-      desc: 'Pruebas de convivencia', 
-      icon: <MdHealthAndSafety className="card-icon" /> 
-    },
-    { 
-      path: '/procesos-adopcion', 
-      title: 'Procesos de Adopción', 
-      desc: 'Filtrar y consultar estados', 
-      icon: <MdManageSearch className="card-icon" /> 
-    }
-  ];
+const HomePage = ()=>{
 
-  return (
-    <div className="dashboard-container">
-      <header className="dashboard-header">
-        <h1>¡Hola!</h1>
-        <p>Bienvenido al Sistema de Gestión de Adopciones</p>
-      </header>
+const [sidebarOpen,setSidebarOpen]=useState(false);
 
-      <div className="menu-grid">
-        {menuItems.map((item, index) => (
-          <Link key={index} to={item.path} className="menu-card">
-            {item.icon}
-            <h3>{item.title}</h3>
-            <span>{item.desc}</span>
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
-};
+const menuItems=[
 
-export default HomePage;
+{
+path:'/registrar-usuario',
+title:'Usuarios',
+icon:<MdPersonAdd/>
+},
+
+{
+path:'/registrar-refugio',
+title:'Refugios',
+icon:<MdHouse/>
+},
+
+{
+path:'/registrar-mascota',
+title:'Mascotas',
+icon:<MdPets/>
+},
+
+{
+path:'/registrar-evento-vida',
+title:'Eventos',
+icon:<MdEvent/>
+},
+
+{
+path:'/consultar-eventos/1',
+title:'Historial',
+icon:<MdHistory/>
+},
+
+{
+path:'/solicitar-adopcion',
+title:'Solicitudes',
+icon:<MdAssignment/>
+},
+
+{
+path:'/crear-evento-refugio',
+title:'Eventos Refugio',
+icon:<MdStore/>
+},
+
+{
+path:'/registrar-convivencia',
+title:'Seguimiento',
+icon:<MdHealthAndSafety/>
+},
+
+{
+path:'/procesos-adopcion',
+title:'Procesos',
+icon:<MdManageSearch/>
+}
+
+];
+
+return(
+
+<div className="layout">
+
+<div className={`sidebar ${sidebarOpen ? "open":""}`}>
+
+<button
+className="menuButton"
+onClick={()=>setSidebarOpen(!sidebarOpen)}
+>
+
+<MdMenu/>
+
+</button>
+
+{
+sidebarOpen &&
+
+<>
+
+<div className="sidebarLogo">
+
+Opciones
+
+</div>
+
+<div className="sidebarMenu">
+
+{
+menuItems.map((item,index)=>(
+
+<Link
+to={item.path}
+key={index}
+className="sidebarItem"
+>
+
+{item.icon}
+
+<span>
+
+{item.title}
+
+</span>
+
+</Link>
+
+))
+}
+
+</div>
+
+</>
+
+}
+
+</div>
+
+<div className="home">
+
+<nav className="navbar">
+
+<div className="logo">
+
+🐾 PawHub
+
+</div>
+
+<div className="profile">
+
+DM
+
+</div>
+
+</nav>
+
+<section className="hero">
+
+<div className="hero-left">
+
+<div className="tag">
+
+Sistema de adopción inteligente
+
+</div>
+
+<h1>
+
+Encuentra hogares para cada mascota
+
+</h1>
+
+<p>
+
+Administra mascotas, refugios y procesos
+de adopción desde un solo lugar.
+
+</p>
+
+<div className="hero-buttons">
+
+<button>
+
+Nueva adopción
+
+</button>
+
+<button className="secondary">
+
+Ver mascotas
+
+</button>
+
+</div>
+
+</div>
+
+<div className="hero-right">
+
+🐶🐱🐾
+
+</div>
+
+</section>
+
+<section className="stats">
+
+<div className="stat">
+
+<h2>128</h2>
+<span>Mascotas</span>
+
+</div>
+
+<div className="stat">
+
+<h2>32</h2>
+<span>Adopciones</span>
+
+</div>
+
+<div className="stat">
+
+<h2>12</h2>
+<span>Refugios</span>
+
+</div>
+
+</section>
+
+</div>
+
+</div>
+
+)
+
+}
+
+export default HomePage

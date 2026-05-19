@@ -1,5 +1,4 @@
-const BASE_URL = "http://localhost:8080/api";
-
+const BASE_URL = '/api';
 export async function getAdoptionProcesses() {
   const response = await fetch(`${BASE_URL}/adoption-processes`);
   if (!response.ok) {

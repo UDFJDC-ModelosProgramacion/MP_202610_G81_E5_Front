@@ -1,135 +1,364 @@
 import React, { useState, useEffect } from 'react';
-import { MdArrowBack, MdCheck, MdAttachFile, MdChevronRight } from 'react-icons/md';
+
+import {
+MdArrowBack,
+MdCheck,
+MdEvent,
+MdAttachFile
+}
+from 'react-icons/md';
+
 import { useNavigate } from 'react-router-dom';
-import Input from '../../components/ui/Input';
-import Select from '../../components/ui/Select';
-import Button from '../../components/ui/Button';
-import { createLifeEvent, getPets, getTypeLifeEvents } from '../../services/LifeEventService'; 
+
+import {
+createLifeEvent,
+getPets,
+getTypeLifeEvents
+}
+from '../../services/LifeEventService';
+
 import './RegistrarEvento.css';
-import pawIcon from '../../assets/paw-icon.png';
 
-const RegistrarEventoPage = () => {
-  const [tipoEventoId, setTipoEventoId] = useState('');
-  const [mascotaId, setMascotaId] = useState('');
-  const [fecha, setFecha] = useState(new Date().toISOString().split('T')[0]); 
-  const [descripcion, setDescripcion] = useState('');
-  
-  // Estados para cargar datos del Back
-  const [opcionesEvento, setOpcionesEvento] = useState([]);
-  const [opcionesMascota, setOpcionesMascota] = useState([]);
-  
-  const navigate = useNavigate();
+const RegistrarEventoPage=()=>{
 
-  // 1. CARGAR DATOS AL INICIAR
-  useEffect(() => {
-    const cargarDatos = async () => {
-      try {
-        const pets = await getPets();
-        const types = await getTypeLifeEvents();
+const navigate=useNavigate();
 
-        // Mapeamos al formato que espera tu componente <Select />
-        setOpcionesMascota(pets.map(p => ({ value: p.id.toString(), label: p.name })));
-        setOpcionesEvento(types.map(t => ({ value: t.id.toString(), label: t.name })));
+const [tipoEventoId,setTipoEventoId]=useState('');
+const [mascotaId,setMascotaId]=useState('');
 
-        // Pre-seleccionar el primero si existen
-        if (pets.length > 0) setMascotaId(pets[0].id.toString());
-        if (types.length > 0) setTipoEventoId(types[0].id.toString());
-      } catch (error) {
-        console.error("Error cargando catálogos:", error);
-      }
-    };
-    cargarDatos();
-  }, []);
+const [fecha,setFecha]=useState(
+new Date().toISOString().split('T')[0]
+);
 
-  const handleGuardar = async () => {
-    if (!descripcion || !mascotaId || !tipoEventoId) {
-        alert("Por favor completa todos los campos obligatorios");
-        return;
-    }
+const [descripcion,setDescripcion]=useState('');
 
-    // 2. CONSTRUIR PAYLOAD PARA SPRING BOOT
-    const payload = {
-      description: descripcion,
-      date: fecha, 
-      pet: { id: parseInt(mascotaId) },
-      type: { id: parseInt(tipoEventoId) },
-      // IMPORTANTE: El Service de Java valida que Veterinarian no sea null.
-      // Aquí enviamos el ID 1 por defecto (debe existir un veterinario con ID 1 en tu DB).
-      veterinarian: { id: 1 } 
-    };
+const [opcionesEvento,setOpcionesEvento]=useState([]);
+const [opcionesMascota,setOpcionesMascota]=useState([]);
 
-    try {
-      const response = await createLifeEvent(payload);
-      alert('¡Evento registrado exitosamente en la base de datos!');
-      navigate('/mascotas'); // O la ruta que prefieras
-    } catch (error) {
-      console.error('Error al guardar:', error.response?.data || error.message);
-      alert('Error: ' + (error.response?.data?.message || 'No se pudo conectar con el servidor'));
-    }
-  };
+const [loading,setLoading]=useState(false);
 
-  return (
-    <div className="page-container">
-      <div className="event-card">
-        <div className="card-header">
-          <MdArrowBack className="header-icon" onClick={() => navigate(-1)}/>
-          <h2>Registrar Evento</h2>
-          <MdCheck className="header-icon" onClick={handleGuardar} />
-        </div>
+useEffect(()=>{
 
-        <div className="card-body">
-          <div className="paw-icon-container">
-            <img src={pawIcon} alt="Huella" className="paw-icon" />
-          </div>
-          <h3>Nueva Actividad</h3>
+const cargarDatos=async()=>{
 
-          <form onSubmit={(e) => e.preventDefault()}>
-            <Select
-              label="Tipo de Evento"
-              required
-              options={opcionesEvento}
-              value={tipoEventoId}
-              onChange={(e) => setTipoEventoId(e.target.value)}
-            />
+try{
 
-            <Input
-              label="Fecha"
-              required
-              type="date"
-              value={fecha}
-              onChange={(e) => setFecha(e.target.value)}
-            />
+const pets=await getPets();
+const types=await getTypeLifeEvents();
 
-            <Select
-              label="Mascota"
-              required
-              options={opcionesMascota}
-              value={mascotaId}
-              onChange={(e) => setMascotaId(e.target.value)}
-            />
+setOpcionesMascota(
 
-            <Input
-              label="Descripción"
-              required
-              value={descripcion}
-              placeholder="Ej: Vacunación anual completada"
-              onChange={(e) => setDescripcion(e.target.value)}
-            />
+pets.map(p=>({
 
-            <div className="file-upload-container">
-              <div className="file-upload-left">
-                <MdAttachFile style={{fontSize: '20px', transform: 'rotate(45deg)'}}/>
-                <span>Subir soporte (PDF/Foto)</span>
-              </div>
-              <MdChevronRight style={{color: '#aaa', fontSize: '24px'}}/>
-            </div>
+value:p.id,
+label:p.name
 
-            <Button onClick={handleGuardar}>Guardar en Historial</Button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
+}))
+
+);
+
+setOpcionesEvento(
+
+types.map(t=>({
+
+value:t.id,
+label:t.name
+
+}))
+
+);
+
+if(pets.length){
+
+setMascotaId(
+String(pets[0].id)
+)
+
+}
+
+if(types.length){
+
+setTipoEventoId(
+String(types[0].id)
+)
+
+}
+
+}
+
+catch(error){
+
+console.log(error);
+
+}
+
+}
+
+cargarDatos();
+
+},[]);
+
+const handleGuardar=async()=>{
+
+if(
+!descripcion||
+!tipoEventoId||
+!mascotaId
+){
+
+alert(
+'Completa todos los campos'
+);
+
+return;
+
+}
+
+const payload={
+
+description:descripcion,
+
+date:fecha,
+
+pet:{
+id:parseInt(mascotaId)
+},
+
+type:{
+id:parseInt(tipoEventoId)
+},
+
+veterinarian:{
+id:1
+}
+
 };
+
+try{
+
+setLoading(true);
+
+await createLifeEvent(
+payload
+);
+
+alert(
+'Evento creado correctamente'
+);
+
+navigate('/home');
+
+}
+
+catch(error){
+
+alert(
+'Error al guardar'
+);
+
+console.log(error);
+
+}
+
+finally{
+
+setLoading(false);
+
+}
+
+}
+
+return(
+
+<div className="layout">
+
+<div className="sidebar">
+
+<button className="menuButton">
+
+☰
+
+</button>
+
+</div>
+
+<div className="content">
+
+<nav className="navbar">
+
+<div className="logo">
+
+🐾 PawHub
+
+</div>
+
+<div className="profile">
+
+DM
+
+</div>
+
+</nav>
+
+<div className="heroMini">
+
+<div>
+
+<div className="tag">
+
+Eventos
+
+</div>
+
+<h1>
+
+Registrar Evento 📅
+
+</h1>
+
+<p>
+
+Añade eventos médicos o actividades
+relacionadas con mascotas.
+
+</p>
+
+</div>
+
+
+
+</div>
+
+<div className="formCard">
+
+<div className="cardTop">
+
+<MdArrowBack
+className="topIcon"
+onClick={()=>navigate('/home')}
+/>
+
+<MdCheck
+className="topIcon"
+onClick={handleGuardar}
+/>
+
+</div>
+
+<div className="formGrid">
+
+<select
+value={tipoEventoId}
+onChange={(e)=>
+setTipoEventoId(
+e.target.value
+)
+}
+>
+
+{
+
+opcionesEvento.map(op=>(
+
+<option
+key={op.value}
+value={op.value}
+>
+
+{op.label}
+
+</option>
+
+))
+
+}
+
+</select>
+
+<input
+type="date"
+value={fecha}
+onChange={(e)=>
+setFecha(
+e.target.value
+)
+}
+/>
+
+<select
+value={mascotaId}
+onChange={(e)=>
+setMascotaId(
+e.target.value
+)
+}
+>
+
+{
+
+opcionesMascota.map(op=>(
+
+<option
+key={op.value}
+value={op.value}
+>
+
+{op.label}
+
+</option>
+
+))
+
+}
+
+</select>
+
+<input
+placeholder="Descripción"
+value={descripcion}
+onChange={(e)=>
+setDescripcion(
+e.target.value
+)
+}
+/>
+
+</div>
+
+<div className="uploadBox">
+
+<MdAttachFile/>
+
+Subir soporte (PDF / Imagen)
+
+</div>
+
+<button
+className="saveButton"
+onClick={handleGuardar}
+disabled={loading}
+>
+
+{
+
+loading
+?
+'Guardando...'
+:
+'Guardar Evento'
+
+}
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+)
+
+}
 
 export default RegistrarEventoPage;

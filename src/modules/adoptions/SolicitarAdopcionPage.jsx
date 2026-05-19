@@ -1,95 +1,352 @@
-import React, { useState } from 'react';
-import { MdArrowBack, MdCheck } from 'react-icons/md';
-import Input from '../../components/ui/Input';
-import Select from '../../components/ui/Select';
-import Button from '../../components/ui/Button';
-import '../lifeevents/RegistrarEvento.css'; // Ruta actualizada al repo de Vite
-import pawIcon from '../../assets/paw-icon.png';
-import { createAdoptionRequest } from '../../services/AdoptionRequestService';
-import { useNavigate } from 'react-router-dom';
+import React,{useState,useEffect} from 'react';
 
-const SolicitarAdopcionPage = () => {
-  const [mascotaId, setMascotaId] = useState('1');
-  const [tipoVivienda, setTipoVivienda] = useState('Casa');
-  const [tieneMascotas, setTieneMascotas] = useState('false');
-  const navigate = useNavigate();
+import {
+MdArrowBack,
+MdCheck,
+MdPets
+}
+from 'react-icons/md';
 
-  const opcionesMascota = [
-    { value: '1', label: 'Fido (ID: 1)' },
-    { value: '2', label: 'Luna (ID: 2)' },
-  ];
+import {useNavigate} from 'react-router-dom';
 
-  const opcionesVivienda = [
-    { value: 'Casa', label: 'Casa' },
-    { value: 'Apartamento', label: 'Apartamento' },
-    { value: 'Finca', label: 'Finca' },
-  ];
+import {createAdoptionRequest}
+from '../../services/AdoptionRequestService';
+import { getPets } from '../../services/LifeEventService';
+import './SolicitarAdopcion.css';
 
-  const opcionesMascotas = [
-    { value: 'true', label: 'Sí' },
-    { value: 'false', label: 'No' },
-  ];
+const SolicitarAdopcionPage=()=>{
+const authUser = JSON.parse(localStorage.getItem('auth_user') || '{}');
+  
+const navigate=useNavigate();
 
-  const handleGuardar = async () => {
-    const payload = {
-      housingType: tipoVivienda,
-      hasOtherPets: tieneMascotas === 'true',
-      petId: parseInt(mascotaId)
-    };
+const [mascotaId,setMascotaId]=useState('1');
 
-    try {
-      await createAdoptionRequest(payload);
-      alert('¡Solicitud enviada con éxito!');
-      navigate('/');
-    } catch (error) {
-      alert('Hubo un error al guardar la solicitud.');
-    }
-  };
+const [tipoVivienda,setTipoVivienda]=useState('Casa');
 
-  return (
-    <div className="page-container">
-      <div className="event-card">
-        <div className="card-header">
-          <MdArrowBack className="header-icon" onClick={() => navigate('/')} />
-          <h2>Solicitud</h2>
-          <MdCheck className="header-icon" />
-        </div>
+const [tieneMascotas,setTieneMascotas]=useState('false');
 
-        <div className="card-body">
-          <div className="paw-icon-container">
-            <img src={pawIcon} alt="Huella" className="paw-icon" />
-          </div>
-          <h3>Solicitar Adopción</h3>
+const [loading,setLoading]=useState(false);
 
-          <form onSubmit={(e) => e.preventDefault()}>
-            <Select
-              label="Mascota"
-              required
-              options={opcionesMascota}
-              value={mascotaId}
-              onChange={(e) => setMascotaId(e.target.value)}
-            />
-            <Select
-              label="Tipo de Vivienda"
-              required
-              options={opcionesVivienda}
-              value={tipoVivienda}
-              onChange={(e) => setTipoVivienda(e.target.value)}
-            />
-            <Select
-              label="¿Tiene otras mascotas?"
-              required
-              options={opcionesMascotas}
-              value={tieneMascotas}
-              onChange={(e) => setTieneMascotas(e.target.value)}
-            />
+const [opcionesMascota,setOpcionesMascota]=useState([]);
 
-            <Button onClick={handleGuardar}>Enviar Solicitud</Button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
+useEffect(()=>{
+
+const cargarMascotas=async()=>{
+
+try{
+
+const pets=await getPets();
+
+const mascotas=pets.map(p=>({
+
+value:String(p.id),
+
+label:`${p.name} (ID:${p.id})`
+
+}));
+
+setOpcionesMascota(mascotas);
+
+if(mascotas.length>0){
+
+setMascotaId(
+mascotas[0].value
+);
+
+}
+
+}
+
+catch(error){
+
+console.log(
+'Error cargando mascotas:',
+error
+);
+
+}
+
 };
+
+cargarMascotas();
+
+},[]);
+
+const opcionesVivienda=[
+
+{
+value:'Casa',
+label:'Casa'
+},
+
+{
+value:'Apartamento',
+label:'Apartamento'
+},
+
+{
+value:'Finca',
+label:'Finca'
+}
+
+];
+
+const opcionesMascotas=[
+
+{
+value:'true',
+label:'Sí'
+},
+
+{
+value:'false',
+label:'No'
+}
+
+];
+
+const handleGuardar=async()=>{
+
+const payload = {
+  pet: { id: parseInt(mascotaId) },
+  adopter: { id: authUser.id },
+  housingType: tipoVivienda,
+  hasOtherPets: tieneMascotas === 'true',  // debe ser hasOtherPets, no hasPets
+  purpose: 'Adopción familiar',
+  papers: 'Pendiente',
+};
+
+console.log('Payload enviado:', JSON.stringify(payload, null, 2));
+try{
+
+setLoading(true);
+
+await createAdoptionRequest(
+payload
+);
+
+alert(
+'¡Solicitud enviada!'
+);
+
+navigate('/home');
+
+}
+
+catch(error){
+
+console.log(
+'Error completo:',
+error.response?.data
+);
+
+alert(
+
+JSON.stringify(
+error.response?.data
+)
+
+);
+
+}
+
+finally{
+
+setLoading(false);
+
+}
+
+};
+
+return(
+
+<div className="layout">
+
+<div className="sidebar">
+
+<button className="menuButton">
+
+☰
+
+</button>
+
+</div>
+
+<div className="content">
+
+<nav className="navbar">
+
+<div className="logo">
+
+🐾 PawHub
+
+</div>
+
+<div className="profile">
+
+DM
+
+</div>
+
+</nav>
+
+<div className="heroMini">
+
+<div>
+
+<div className="tag">
+
+Adopciones
+
+</div>
+
+<h1>
+
+Solicitar Adopción 🏠
+
+</h1>
+
+<p>
+
+Completa la información para iniciar
+el proceso de adopción.
+
+</p>
+
+</div>
+
+</div>
+
+<div className="formCard">
+
+<div className="cardTop">
+
+<MdArrowBack
+className="topIcon"
+onClick={()=>navigate('/home')}
+/>
+
+<MdCheck
+className="topIcon"
+onClick={handleGuardar}
+/>
+
+</div>
+
+<div className="formGrid">
+
+<select
+value={mascotaId}
+onChange={(e)=>
+setMascotaId(
+e.target.value
+)
+}
+>
+
+{
+
+opcionesMascota.map(op=>(
+
+<option
+key={op.value}
+value={op.value}
+>
+
+{op.label}
+
+</option>
+
+))
+
+}
+
+</select>
+
+<select
+value={tipoVivienda}
+onChange={(e)=>
+setTipoVivienda(
+e.target.value
+)
+}
+>
+
+{
+
+opcionesVivienda.map(op=>(
+
+<option
+key={op.value}
+value={op.value}
+>
+
+{op.label}
+
+</option>
+
+))
+
+}
+
+</select>
+
+<select
+value={tieneMascotas}
+onChange={(e)=>
+setTieneMascotas(
+e.target.value
+)
+}
+>
+
+{
+
+opcionesMascotas.map(op=>(
+
+<option
+key={op.value}
+value={op.value}
+>
+
+{op.label}
+
+</option>
+
+))
+
+}
+
+</select>
+
+</div>
+
+<button
+className="saveButton"
+onClick={handleGuardar}
+disabled={loading}
+>
+
+{
+
+loading
+?
+'Enviando...'
+:
+'Enviar Solicitud'
+
+}
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+)
+
+}
 
 export default SolicitarAdopcionPage;

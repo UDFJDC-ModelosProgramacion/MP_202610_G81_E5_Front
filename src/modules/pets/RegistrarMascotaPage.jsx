@@ -1,167 +1,387 @@
-import React, { useState } from 'react';
-import { MdArrowBack, MdCheck, MdPets } from 'react-icons/md';
-import Input from '../../components/ui/Input';
-import Select from '../../components/ui/Select';
-import Button from '../../components/ui/Button';
+import React, { useState, useEffect } from 'react';
+import {
+MdArrowBack,
+MdCheck,
+MdPets
+} from 'react-icons/md';
+
 import { useNavigate } from 'react-router-dom';
 import { createPet } from '../../services/PetService';
+
 import './RegistrarMascota.css';
 
-const RegistrarMascotaPage = () => {
-  const navigate = useNavigate();
+const RegistrarMascotaPage=()=>{
 
-  const [formData, setFormData] = useState({
-    name: '',
-    species: '1',
-    breed: '',
-    birthDate: '',
-    weight: '',
-    gender: '1',
-    color: '',
-    notes: ''
-  });
+const navigate=useNavigate();
 
-  const [loading, setLoading] = useState(false);
+const [loading,setLoading]=useState(false);
 
-  const especiesOptions = [
-    { value: '1', label: 'Perro' },
-    { value: '2', label: 'Gato' },
-    { value: '3', label: 'Ave' },
-    { value: '4', label: 'Conejo' },
-    { value: '5', label: 'Otro' },
-  ];
+const [formData,setFormData]=useState({
 
-  const generoOptions = [
-    { value: '1', label: 'Macho' },
-    { value: '2', label: 'Hembra' },
-  ];
+name:'',
+species:'1',
+breed:'',
+birthDate:'',
+weight:'',
+gender:'1',
+color:'',
+notes:'',
+shelterId:''
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+});
 
-  const handleGuardar = async () => {
-    const payload = {
-      name: formData.name,
-      breed: formData.breed,
-      birthDate: formData.birthDate,
-      weight: parseFloat(formData.weight) || null,
-      color: formData.color,
-      notes: formData.notes,
-      species: { id: parseInt(formData.species) },
-      gender: { id: parseInt(formData.gender) }
-    };
+const [shelters,setShelters]=useState([]);
 
-    try {
-      setLoading(true);
-      console.log('Enviando mascota a Spring Boot:', payload);
-      const response = await createPet(payload);
-      alert('¡Mascota registrada con éxito! ID: ' + response.id);
-      navigate('/');
-    } catch (error) {
-      alert('Hubo un error al guardar. Revisa la consola.');
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+useEffect(()=>{
 
-  return (
-    <div className="page-container">
-      <div className="event-card">
-        {/* CABECERA */}
-        <div className="card-header">
-          <MdArrowBack className="header-icon" onClick={() => navigate('/')} />
-          <h2>Registrar Mascota</h2>
-          <MdCheck className="header-icon" />
-        </div>
+fetch('/api/shelters')
 
-        {/* CUERPO */}
-        <div className="card-body">
-          <div className="paw-icon-container">
-            <MdPets className="paw-icon-svg" />
-          </div>
-          <h3>Nueva Mascota</h3>
+.then(r=>r.json())
 
-          <form onSubmit={(e) => e.preventDefault()}>
-            <Input
-              label="Nombre de la mascota"
-              required
-              name="name"
-              value={formData.name}
-              placeholder="Ej: Fido"
-              onChange={handleChange}
-            />
+.then(data=>{
 
-            <Select
-              label="Especie"
-              required
-              options={especiesOptions}
-              name="species"
-              value={formData.species}
-              onChange={handleChange}
-            />
+setShelters(
 
-            <Input
-              label="Raza"
-              name="breed"
-              value={formData.breed}
-              placeholder="Ej: Labrador"
-              onChange={handleChange}
-            />
+data.map(s=>({
 
-            <Input
-              label="Fecha de nacimiento"
-              required
-              type="date"
-              name="birthDate"
-              value={formData.birthDate}
-              onChange={handleChange}
-            />
+value:String(s.id),
+label:s.name
 
-            <Input
-              label="Peso (kg)"
-              type="number"
-              name="weight"
-              value={formData.weight}
-              placeholder="Ej: 12.5"
-              onChange={handleChange}
-            />
+}))
 
-            <Select
-              label="Género"
-              required
-              options={generoOptions}
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-            />
+);
 
-            <Input
-              label="Color"
-              name="color"
-              value={formData.color}
-              placeholder="Ej: Café con blanco"
-              onChange={handleChange}
-            />
+if(data.length>0){
 
-            <Input
-              label="Notas adicionales"
-              name="notes"
-              value={formData.notes}
-              placeholder="Ej: Alérgico a ciertos alimentos"
-              onChange={handleChange}
-            />
+setFormData(prev=>({
+...prev,
+shelterId:String(data[0].id)
+}));
 
-            <Button onClick={handleGuardar} disabled={loading}>
-              {loading ? 'Guardando...' : 'Registrar Mascota'}
-            </Button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
+}
+
+})
+
+.catch(()=>setShelters([]));
+
+},[]);
+
+const especiesOptions=[
+
+{value:'1',label:'Perro'},
+{value:'2',label:'Gato'},
+{value:'3',label:'Ave'},
+{value:'4',label:'Conejo'},
+{value:'5',label:'Otro'}
+
+];
+
+const generoOptions=[
+
+{value:'1',label:'Macho'},
+{value:'2',label:'Hembra'}
+
+];
+
+const handleChange=(e)=>{
+
+const {name,value}=e.target;
+
+setFormData({
+
+...formData,
+[name]:value
+
+})
+
+}
+
+const handleGuardar=async()=>{
+
+if(!formData.shelterId){
+
+alert(
+'Primero debes crear un refugio'
+);
+
+return;
+
+}
+
+const payload={
+
+name:formData.name,
+breed:formData.breed,
+birthDate:formData.birthDate,
+weight:parseFloat(formData.weight)||null,
+color:formData.color,
+notes:formData.notes,
+
+shelter:{
+id:parseInt(formData.shelterId)
+},
+
+species:{
+id:parseInt(formData.species)
+},
+
+gender:{
+id:parseInt(formData.gender)
+}
+
 };
+
+try{
+
+setLoading(true);
+
+const response=await createPet(
+payload
+);
+
+alert(
+'¡Mascota creada! ID: '+response.id
+);
+
+navigate('/home');
+
+}
+
+catch(error){
+
+alert(
+'Error: '+error.message
+);
+
+}
+
+finally{
+
+setLoading(false);
+
+}
+
+}
+
+return(
+
+<div className="layout">
+
+<div className="sidebar">
+
+<button className="menuButton">
+
+☰
+
+</button>
+
+</div>
+
+<div className="content">
+
+<nav className="navbar">
+
+<div className="logo">
+
+🐾 PawHub
+
+</div>
+
+<div className="profile">
+
+DM
+
+</div>
+
+</nav>
+
+<div className="heroMini">
+
+<div>
+
+<div className="tag">
+
+Mascotas
+
+</div>
+
+<h1>
+
+Registrar Mascota 🐶
+
+</h1>
+
+<p>
+
+Añade una nueva mascota al sistema.
+
+</p>
+
+</div>
+
+
+</div>
+
+<div className="formCard">
+
+<div className="cardTop">
+
+<MdArrowBack
+className="topIcon"
+onClick={()=>navigate('/home')}
+/>
+
+
+
+</div>
+
+<div className="formGrid">
+
+<input
+name="name"
+placeholder="Nombre"
+value={formData.name}
+onChange={handleChange}
+/>
+
+<select
+name="species"
+value={formData.species}
+onChange={handleChange}
+>
+
+{
+
+especiesOptions.map(option=>(
+
+<option
+key={option.value}
+value={option.value}
+>
+
+{option.label}
+
+</option>
+
+))
+
+}
+
+</select>
+
+<input
+name="breed"
+placeholder="Raza"
+value={formData.breed}
+onChange={handleChange}
+/>
+
+<input
+type="date"
+name="birthDate"
+value={formData.birthDate}
+onChange={handleChange}
+/>
+
+<input
+name="weight"
+placeholder="Peso"
+value={formData.weight}
+onChange={handleChange}
+/>
+
+<select
+name="gender"
+value={formData.gender}
+onChange={handleChange}
+>
+
+{
+
+generoOptions.map(option=>(
+
+<option
+key={option.value}
+value={option.value}
+>
+
+{option.label}
+
+</option>
+
+))
+
+}
+
+</select>
+
+<input
+name="color"
+placeholder="Color"
+value={formData.color}
+onChange={handleChange}
+/>
+
+<input
+name="notes"
+placeholder="Notas"
+value={formData.notes}
+onChange={handleChange}
+/>
+
+<select
+name="shelterId"
+value={formData.shelterId}
+onChange={handleChange}
+>
+
+{
+
+shelters.map(s=>(
+
+<option
+key={s.value}
+value={s.value}
+>
+
+{s.label}
+
+</option>
+
+))
+
+}
+
+</select>
+
+</div>
+
+<button
+className="saveButton"
+onClick={handleGuardar}
+disabled={loading}
+>
+
+{
+
+loading
+?
+'Guardando...'
+:
+'Registrar Mascota'
+
+}
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+)
+
+}
 
 export default RegistrarMascotaPage;

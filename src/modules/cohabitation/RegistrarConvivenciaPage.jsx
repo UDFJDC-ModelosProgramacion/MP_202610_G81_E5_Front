@@ -1,78 +1,269 @@
-import React, { useState } from 'react';
-import { MdArrowBack, MdCheck } from 'react-icons/md';
+import React,{useState} from 'react';
+
+import {
+MdArrowBack,
+MdCheck,
+MdHealthAndSafety
+}
+from 'react-icons/md';
+
 import Input from '../../components/ui/Input';
 import Select from '../../components/ui/Select';
-import Button from '../../components/ui/Button';
-import '../lifeevents/RegistrarEvento.css'; 
-import pawIcon from '../../assets/paw-icon.png';
-import { createTrialCohabitation } from '../../services/TrialCohabitationService';
-import { useNavigate } from 'react-router-dom';
 
-const RegistrarConvivenciaPage = () => {
-  const [procesoId, setProcesoId] = useState('1');
-  const [veterinarioId, setVeterinarioId] = useState('1');
-  const [fechaInicio, setFechaInicio] = useState('');
-  const [fechaFin, setFechaFin] = useState('');
-  const [estado, setEstado] = useState('En curso');
-  const navigate = useNavigate();
+import {
+createTrialCohabitation
+}
+from '../../services/TrialCohabitationService';
 
-  const opcionesEstado = [
-    { value: 'En curso', label: 'En curso' },
-    { value: 'Aprobado', label: 'Aprobado' },
-    { value: 'Rechazado', label: 'Rechazado' },
-  ];
+import {useNavigate} from 'react-router-dom';
 
-  const handleGuardar = async () => {
-    if (new Date(fechaFin) < new Date(fechaInicio)) {
-        alert('Error: La fecha de fin no puede ser anterior a la de inicio.');
-        return;
-    }
+import './RegistrarConvivencia.css';
 
-    const payload = {
-      startDate: fechaInicio,
-      endDate: fechaFin,
-      status: estado,
-      processId: parseInt(procesoId),
-      veterinarianId: parseInt(veterinarioId)
-    };
+const RegistrarConvivenciaPage=()=>{
 
-    try {
-      await createTrialCohabitation(payload);
-      alert('¡Convivencia registrada exitosamente!');
-      navigate('/');
-    } catch (error) {
-      alert('Hubo un error al registrar la convivencia.');
-    }
-  };
+const navigate=useNavigate();
 
-  return (
-    <div className="page-container">
-      <div className="event-card">
-        <div className="card-header">
-          <MdArrowBack className="header-icon" onClick={() => navigate('/')} />
-          <h2>Convivencia</h2>
-          <MdCheck className="header-icon" />
-        </div>
+const [procesoId,setProcesoId]=useState('1');
 
-        <div className="card-body">
-          <div className="paw-icon-container">
-            <img src={pawIcon} alt="Huella" className="paw-icon" />
-          </div>
-          <h3>Registrar Convivencia</h3>
+const [veterinarioId,setVeterinarioId]=useState('1');
 
-          <form onSubmit={(e) => e.preventDefault()}>
-            <Input label="Proceso de Adopción (ID)" required type="number" value={procesoId} onChange={(e) => setProcesoId(e.target.value)} />
-            <Input label="Veterinario asignado (ID)" required type="number" value={veterinarioId} onChange={(e) => setVeterinarioId(e.target.value)} />
-            <Input label="Fecha de Inicio" required type="date" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
-            <Input label="Fecha de Fin Proyectada" required type="date" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
-            <Select label="Estado / Resultado" required options={opcionesEstado} value={estado} onChange={(e) => setEstado(e.target.value)} />
+const [fechaInicio,setFechaInicio]=useState('');
 
-            <Button onClick={handleGuardar}>Registrar Prueba</Button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
+const [fechaFin,setFechaFin]=useState('');
+
+const [estado,setEstado]=useState('En curso');
+
+const opcionesEstado=[
+
+{
+value:'En curso',
+label:'En curso'
+},
+
+{
+value:'Aprobado',
+label:'Aprobado'
+},
+
+{
+value:'Rechazado',
+label:'Rechazado'
+}
+
+];
+
+const handleGuardar=async()=>{
+
+if(
+new Date(fechaFin)
+<
+new Date(fechaInicio)
+){
+
+alert(
+'La fecha final no puede ser menor'
+);
+
+return;
+
+}
+
+const payload={
+
+startDate:fechaInicio,
+
+endDate:fechaFin,
+
+status:estado,
+
+adoptionProcess:{
+id:parseInt(
+procesoId
+)
+},
+
+veterinarian:{
+id:parseInt(
+veterinarioId
+)
+}
+
 };
+
+try{
+
+await createTrialCohabitation(
+payload
+);
+
+alert(
+'¡Convivencia registrada!'
+);
+
+navigate('/');
+
+}
+
+catch{
+
+alert(
+'Error al registrar convivencia'
+);
+
+}
+
+};
+
+return(
+
+<div className="layout">
+
+<div className="sidebar">
+
+<button className="menuButton">
+
+☰
+
+</button>
+
+</div>
+
+<div className="content">
+
+<nav className="navbar">
+
+<div className="logo">
+
+🐾 PawHub
+
+</div>
+
+<div className="profile">
+
+DM
+
+</div>
+
+</nav>
+
+<div className="heroMini">
+
+<div>
+
+<div className="tag">
+
+Seguimiento
+
+</div>
+
+<h1>
+
+Prueba de Convivencia 🏠
+
+</h1>
+
+<p>
+
+Registra y controla
+el periodo de convivencia.
+
+</p>
+
+</div>
+
+<MdHealthAndSafety
+className="heroIcon"
+/>
+
+</div>
+
+<div className="formCard">
+
+<div className="cardTop">
+
+<MdArrowBack
+className="topIcon"
+onClick={()=>navigate(-1)}
+/>
+
+<MdCheck
+className="topIcon"
+onClick={handleGuardar}
+/>
+
+</div>
+
+<div className="formGrid">
+
+<Input
+label="Proceso ID"
+type="number"
+value={procesoId}
+onChange={(e)=>
+setProcesoId(
+e.target.value
+)}
+/>
+
+<Input
+label="Veterinario ID"
+type="number"
+value={veterinarioId}
+onChange={(e)=>
+setVeterinarioId(
+e.target.value
+)}
+/>
+
+<Input
+label="Fecha Inicio"
+type="date"
+value={fechaInicio}
+onChange={(e)=>
+setFechaInicio(
+e.target.value
+)}
+/>
+
+<Input
+label="Fecha Final"
+type="date"
+value={fechaFin}
+onChange={(e)=>
+setFechaFin(
+e.target.value
+)}
+/>
+
+<Select
+label="Estado"
+options={opcionesEstado}
+value={estado}
+onChange={(e)=>
+setEstado(
+e.target.value
+)}
+/>
+
+</div>
+
+<button
+className="saveButton"
+onClick={handleGuardar}
+>
+
+Registrar Convivencia
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+)
+
+}
 
 export default RegistrarConvivenciaPage;

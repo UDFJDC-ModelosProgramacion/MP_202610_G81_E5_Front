@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/events';
+const API_URL = '/api/events';
 
 export const createShelterEvent = async (eventData) => {
     try {
