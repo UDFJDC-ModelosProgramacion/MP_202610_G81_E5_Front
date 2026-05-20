@@ -111,7 +111,7 @@ const payload = {
   pet: { id: parseInt(mascotaId) },
   adopter: { id: authUser.id },
   housingType: tipoVivienda,
-  hasOtherPets: tieneMascotas === 'true',  // debe ser hasOtherPets, no hasPets
+  hasOtherPets: tieneMascotas === 'true',
   purpose: 'Adopción familiar',
   papers: 'Pendiente',
 };
@@ -291,33 +291,28 @@ value={op.value}
 
 </select>
 
-<select
-value={tieneMascotas}
-onChange={(e)=>
-setTieneMascotas(
-e.target.value
-)
-}
->
-
-{
-
-opcionesMascotas.map(op=>(
-
-<option
-key={op.value}
-value={op.value}
->
-
-{op.label}
-
-</option>
-
-))
-
-}
-
-</select>
+<div>
+  <label style={{display:'block', marginBottom:'4px', fontWeight:'500'}}>
+    ¿Tiene mascotas?
+  </label>
+  <select
+    value={tieneMascotas}
+    onChange={(e)=>
+      setTieneMascotas(
+        e.target.value
+      )
+    }
+  >
+    {opcionesMascotas.map(op=>(
+      <option
+        key={op.value}
+        value={op.value}
+      >
+        {op.label}
+      </option>
+    ))}
+  </select>
+</div>
 
 </div>
 
