@@ -11,7 +11,9 @@ import RegistrarConvivenciaPage from './modules/cohabitation/RegistrarConvivenci
 import RegisterForm            from './modules/auth/RegisterForm'
 import AdoptionProcessPage     from './modules/FormsFilter/AdoptionProcessPage'
 import ProtectedRoute          from './components/ProtectedRoute'
- 
+import RegistrarVeterinarioPage from './modules/veterinarians/RegistrarVeterinarioPage'
+import RegistrarTipoEventoPage from './modules/typeLE/RegistrarTipoEventoPage';
+
 function App() {
   return (
     <Routes>
@@ -25,6 +27,9 @@ function App() {
       }/>
       <Route path="/registrar-mascota" element={
         <ProtectedRoute><RegistrarMascotaPage /></ProtectedRoute>
+      }/>
+      <Route path="/registrar-veterinario" element={
+        <ProtectedRoute><RegistrarVeterinarioPage /></ProtectedRoute>
       }/>
       <Route path="/registrar-evento-vida" element={
         <ProtectedRoute><RegistrarEventoPage /></ProtectedRoute>
@@ -46,6 +51,9 @@ function App() {
       }/>
       <Route path="/procesos-adopcion" element={
         <ProtectedRoute><AdoptionProcessPage /></ProtectedRoute>
+      }/>
+      <Route path="/registrar-tipo-evento" element={
+        <ProtectedRoute><RegistrarTipoEventoPage /></ProtectedRoute>
       }/>
     </Routes>
   )
