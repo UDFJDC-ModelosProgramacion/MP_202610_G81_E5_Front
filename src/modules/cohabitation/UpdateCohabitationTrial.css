@@ -1,0 +1,194 @@
+.uc-page-layout {
+  min-height: 100vh;
+  background-color: #f6f8fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: 80px;
+}
+
+/* Navbar superior */
+.uc-top-navbar {
+  height: 68px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  border-bottom: 1px solid #ededed;
+}
+
+.uc-nav-left { display: flex; align-items: center; gap: 16px; }
+.uc-nav-brand { font-weight: 700; font-size: 1.35rem; color: #111111; }
+.uc-menu-burger {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+.uc-menu-burger span {
+  width: 18px;
+  height: 2.5px;
+  background-color: #111111;
+  border-radius: 2px;
+}
+
+.uc-user-avatar {
+  background-color: #e26f55;
+  color: #ffffff;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* Contenedor e interfaz interna */
+.uc-main-container {
+  max-width: 1450px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.uc-content-banner {
+  background-color: #ffffff;
+  border-radius: 28px;
+  padding: 36px 44px;
+  margin-top: 28px;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+}
+
+.uc-badge-category {
+  display: inline-block;
+  background-color: #fff0ec;
+  color: #e26f55;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.uc-main-title { font-size: 2.2rem; font-weight: 800; margin: 0 0 6px 0; color: #111111; }
+.uc-main-subtitle { color: #666666; font-size: 0.92rem; margin: 0; }
+
+/* Tarjeta del Formulario */
+.uc-form-card {
+  background-color: #ffffff;
+  border-radius: 28px;
+  padding: 40px 44px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+}
+
+.uc-navigation-row {
+  margin-bottom: 24px;
+}
+
+.uc-circular-back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #111111;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+.uc-circular-back-btn:hover { transform: translateX(-3px); }
+
+/* Grid idéntico a las capturas */
+.uc-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.uc-input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.uc-input-wrapper--full { grid-column: span 2; }
+
+.uc-input-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #555555;
+  margin-bottom: 6px;
+  margin-left: 4px;
+}
+
+/* Inputs grises planos y limpios */
+.uc-styled-input {
+  width: 100%;
+  height: 54px;
+  background-color: #f3f4f6;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  padding: 0 20px;
+  font-size: 0.95rem;
+  color: #111111;
+  outline: none;
+  box-sizing: border-box;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+.uc-styled-input:focus {
+  background-color: #ebedf0;
+  border-color: #e26f55;
+}
+
+select.uc-styled-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23444' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 16px;
+  padding-right: 45px;
+}
+
+/* Botón inferior Coral de borde a borde */
+.uc-action-footer {
+  grid-column: span 2;
+  margin-top: 28px;
+}
+
+.uc-primary-submit-btn {
+  width: 100%;
+  height: 56px;
+  background-color: #e26f55;
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.uc-primary-submit-btn:hover { background-color: #cd5f47; }
+.uc-primary-submit-btn:disabled { background-color: #f0a898; cursor: not-allowed; }
+
+/* Estado de error y sincronización */
+.uc-input-wrapper--has-error .uc-styled-input { border-color: #ef4444; }
+.uc-validation-message { color: #ef4444; font-size: 0.78rem; margin-top: 4px; margin-left: 4px; }
+.uc-loading-overlay-bar { background-color: #fff9f6; padding: 12px; border-radius: 12px; margin-bottom: 16px; font-size: 0.88rem; color: #e26f55; text-align: center; }
+
+/* Estilos de Toast */
+.uc-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: #333333;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+  z-index: 999;
+}
+.uc-toast--show { transform: translateY(0); opacity: 1; }
+.uc-toast--error { background-color: #ef4444; }

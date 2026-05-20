@@ -11,6 +11,8 @@ import RegistrarConvivenciaPage from './modules/cohabitation/RegistrarConvivenci
 import RegisterForm            from './modules/auth/RegisterForm'
 import AdoptionProcessPage     from './modules/FormsFilter/AdoptionProcessPage'
 import ProtectedRoute          from './components/ProtectedRoute'
+import CohabitationMonitorPage from './modules/cohabitation/CohabitationMonitorPage'
+import UpdateCohabitationTrial from './modules/cohabitation/UpdateCohabitationTrialPage'
  
 function App() {
   return (
@@ -46,6 +48,12 @@ function App() {
       }/>
       <Route path="/procesos-adopcion" element={
         <ProtectedRoute><AdoptionProcessPage /></ProtectedRoute>
+      }/>
+      <Route path="/CohabitationMonitorPage" element={
+        <ProtectedRoute><CohabitationMonitorPage /></ProtectedRoute>
+      }/>
+      <Route path="/update-cohabitation-trial/:id" element={
+        <ProtectedRoute><UpdateCohabitationTrial /></ProtectedRoute>
       }/>
     </Routes>
   )
