@@ -9,11 +9,15 @@ export const createAdoptionRequest = async (requestData) => {
     } catch(error){
 
 console.error(
-'Error al crear solicitud:',
-error.response?.data || error
+'Error completo:',
+error.response?.data
 );
 
-throw error;
+throw new Error(
+error.response?.data?.message ||
+error.response?.data?.error ||
+'Error del servidor'
+);
 
 }
 };

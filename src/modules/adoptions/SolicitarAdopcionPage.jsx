@@ -105,57 +105,43 @@ label:'No'
 
 ];
 
-const handleGuardar=async()=>{
+const handleGuardar = async () => {
 
-const payload = {
-  pet: { id: parseInt(mascotaId) },
-  adopter: { id: authUser.id },
-  housingType: tipoVivienda,
-  hasOtherPets: tieneMascotas === 'true',
-  purpose: 'Adopción familiar',
-  papers: 'Pendiente',
-};
+  const payload = {
+    pet: {
+      id: parseInt(mascotaId)
+    },
+    adopter: {
+      id: 1
+    },
+    purpose: "Adopción familiar",
+    papers: "Pendiente"
+  };
 
-console.log('Payload enviado:', JSON.stringify(payload, null, 2));
-try{
+  console.log(
+    "Payload enviado:",
+    JSON.stringify(payload, null, 2)
+  );
 
-setLoading(true);
+  try {
 
-await createAdoptionRequest(
-payload
-);
+    await createAdoptionRequest(payload);
 
-alert(
-'¡Solicitud enviada!'
-);
+    alert('¡Solicitud enviada con éxito!');
+    navigate('/home');
 
-navigate('/home');
+  } catch (error) {
 
-}
+    console.error(
+      "Error completo:",
+      error
+    );
 
-catch(error){
-
-console.log(
-'Error completo:',
-error.response?.data
-);
-
-alert(
-
-JSON.stringify(
-error.response?.data
-)
-
-);
-
-}
-
-finally{
-
-setLoading(false);
-
-}
-
+    alert(
+      error.message ||
+      'Hubo un error al guardar la solicitud.'
+    );
+  }
 };
 
 return(
