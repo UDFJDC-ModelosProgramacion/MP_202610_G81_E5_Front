@@ -15,31 +15,33 @@ const LoginPage = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  try {
-    // Primero registra/obtiene el adoptante
-    const regRes = await fetch('/api/users/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const regRes = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: formData.email, 
+          password: formData.password 
+        }),
+      });
+      const data = await regRes.json();
+      if (!regRes.ok) {
+        setError(data.message || 'Credenciales inválidas.');
+        return;
+      }
+      localStorage.setItem('auth_user', JSON.stringify({ 
         email: formData.email, 
-        password: formData.password 
-      }),
-    });
-    const data = await regRes.json();
-    // Guarda el id real del adoptante creado en BD
-    localStorage.setItem('auth_user', JSON.stringify({ 
-      email: formData.email, 
-      id: data.id           // id del AdopterEntity
-    }));
-    navigate('/home');
-  } catch (err) {
-    setError('Error al iniciar sesión.');
-  } finally {
-    setLoading(false);
-  }
-};
+        id: data.id
+      }));
+      navigate('/home');
+    } catch (err) {
+      setError('Error al iniciar sesión.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="login-root">
@@ -58,12 +60,9 @@ const LoginPage = () => {
             Conectando familias<br />con sus compañeros perfectos.
           </p>
           <div className="login-stats">
-            <div className="login-stat">
-            </div>
-            <div className="login-stat">
-            </div>
-            <div className="login-stat">
-            </div>
+            <div className="login-stat"></div>
+            <div className="login-stat"></div>
+            <div className="login-stat"></div>
           </div>
         </div>
 
