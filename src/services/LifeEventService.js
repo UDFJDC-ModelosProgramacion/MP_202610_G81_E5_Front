@@ -18,16 +18,26 @@ export const getTypeLifeEvents = async () => {
   return response.data;
 };
 
-// 3. Crear el evento
+// 3. Obtener todos los veterinarios (Agregada para solucionar tu problema)
+export const getVeterinarians = async () => {
+  const response = await api.get('/veterinarians');
+  return response.data;
+};
+
+// 4. Crear el evento de vida
 export const createLifeEvent = async (payload) => {
   const response = await api.post('/life-events', payload);
   return response.data;
 };
 
-// --- ESTA ES LA FUNCIÓN QUE FALTABA ---
-// 4. Obtener eventos de una mascota específica
-export const getPetLifeEvents = async (petId) => {
-  // Esta ruta debe coincidir con la de tu controlador unificado: /pets/{id}/life-events
-  const response = await api.get(`/pets/${petId}/life-events`);
+// 5. Crear un nuevo Tipo de Evento de Vida (Agregada para el nuevo formulario)
+export const createTypeLifeEvent = async (payload) => {
+  const response = await api.post('/type-life-events', payload);
   return response.data;
+};
+
+// 6. Obtener eventos de una mascota específica
+export const getPetLifeEvents = async (petId) => {
+  const response = await api.get(`/life-events/pet/${petId}`);
+  return response.data.filter(evento => evento.pet && String(evento.pet.id) === String(petId));
 };

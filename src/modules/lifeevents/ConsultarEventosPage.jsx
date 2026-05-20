@@ -136,7 +136,7 @@ onClick={()=>navigate(-1)}
 className="topIcon"
 onClick={()=>
 navigate(
-'/registrar-evento'
+'/registrar-evento-vida'
 )
 }
 />
