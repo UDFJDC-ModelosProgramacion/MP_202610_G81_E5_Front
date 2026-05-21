@@ -1,0 +1,87 @@
+/* Estilos para el contenedor principal de la página */
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f7fb; /* Fondo grisáceo claro */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.event-card {
+  width: 350px; /* Ancho similar al de un móvil */
+  background-color: white;
+  border-radius: 15px;
+  overflow: hidden; /* Para que la cabecera azul respete el borde redondeado */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Cabecera Azul */
+.card-header {
+  background-color: #4a76d1;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 18px;
+  fontWeight: 500;
+}
+
+/* Cuerpo de la tarjeta */
+.card-body {
+  padding: 20px;
+  text-align: center;
+}
+
+.paw-icon-container {
+  background-color: #f0f0f0;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 15px auto;
+}
+
+.paw-icon {
+  width: 40px;
+  height: 40px;
+  /* Si usas una imagen, asegúrate de que el color sea el marrón de la foto */
+}
+
+.card-body h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 20px;
+}
+
+/* Sección de subir archivo */
+.file-upload-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+}
+
+.file-upload-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #666;
+}

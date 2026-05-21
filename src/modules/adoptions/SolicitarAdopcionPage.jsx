@@ -105,57 +105,43 @@ label:'No'
 
 ];
 
-const handleGuardar=async()=>{
+const handleGuardar = async () => {
 
-const payload = {
-  pet: { id: parseInt(mascotaId) },
-  adopter: { id: authUser.id },
-  housingType: tipoVivienda,
-  hasOtherPets: tieneMascotas === 'true',  // debe ser hasOtherPets, no hasPets
-  purpose: 'Adopción familiar',
-  papers: 'Pendiente',
-};
+  const payload = {
+    pet: {
+      id: parseInt(mascotaId)
+    },
+    adopter: {
+      id: 1
+    },
+    purpose: "Adopción familiar",
+    papers: "Pendiente"
+  };
 
-console.log('Payload enviado:', JSON.stringify(payload, null, 2));
-try{
+  console.log(
+    "Payload enviado:",
+    JSON.stringify(payload, null, 2)
+  );
 
-setLoading(true);
+  try {
 
-await createAdoptionRequest(
-payload
-);
+    await createAdoptionRequest(payload);
 
-alert(
-'¡Solicitud enviada!'
-);
+    alert('¡Solicitud enviada con éxito!');
+    navigate('/home');
 
-navigate('/home');
+  } catch (error) {
 
-}
+    console.error(
+      "Error completo:",
+      error
+    );
 
-catch(error){
-
-console.log(
-'Error completo:',
-error.response?.data
-);
-
-alert(
-
-JSON.stringify(
-error.response?.data
-)
-
-);
-
-}
-
-finally{
-
-setLoading(false);
-
-}
-
+    alert(
+      error.message ||
+      'Hubo un error al guardar la solicitud.'
+    );
+  }
 };
 
 return(
@@ -291,33 +277,28 @@ value={op.value}
 
 </select>
 
-<select
-value={tieneMascotas}
-onChange={(e)=>
-setTieneMascotas(
-e.target.value
-)
-}
->
-
-{
-
-opcionesMascotas.map(op=>(
-
-<option
-key={op.value}
-value={op.value}
->
-
-{op.label}
-
-</option>
-
-))
-
-}
-
-</select>
+<div>
+  <label style={{display:'block', marginBottom:'4px', fontWeight:'500'}}>
+    ¿Tiene mascotas?
+  </label>
+  <select
+    value={tieneMascotas}
+    onChange={(e)=>
+      setTieneMascotas(
+        e.target.value
+      )
+    }
+  >
+    {opcionesMascotas.map(op=>(
+      <option
+        key={op.value}
+        value={op.value}
+      >
+        {op.label}
+      </option>
+    ))}
+  </select>
+</div>
 
 </div>
 

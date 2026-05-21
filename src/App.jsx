@@ -14,6 +14,9 @@ import ProtectedRoute          from './components/ProtectedRoute'
 import CohabitationMonitorPage from './modules/cohabitation/CohabitationMonitorPage'
 import UpdateCohabitationTrial from './modules/cohabitation/UpdateCohabitationTrialPage'
  
+import RegistrarVeterinarioPage from './modules/veterinarians/RegistrarVeterinarioPage'
+import RegistrarTipoEventoPage from './modules/typeLE/RegistrarTipoEventoPage';
+
 function App() {
   return (
     <Routes>
@@ -27,6 +30,9 @@ function App() {
       }/>
       <Route path="/registrar-mascota" element={
         <ProtectedRoute><RegistrarMascotaPage /></ProtectedRoute>
+      }/>
+      <Route path="/registrar-veterinario" element={
+        <ProtectedRoute><RegistrarVeterinarioPage /></ProtectedRoute>
       }/>
       <Route path="/registrar-evento-vida" element={
         <ProtectedRoute><RegistrarEventoPage /></ProtectedRoute>
@@ -54,6 +60,8 @@ function App() {
       }/>
       <Route path="/update-cohabitation-trial/:id" element={
         <ProtectedRoute><UpdateCohabitationTrial /></ProtectedRoute>
+      <Route path="/registrar-tipo-evento" element={
+        <ProtectedRoute><RegistrarTipoEventoPage /></ProtectedRoute>
       }/>
     </Routes>
   )
