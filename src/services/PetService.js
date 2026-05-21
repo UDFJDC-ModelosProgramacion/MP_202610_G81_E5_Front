@@ -29,5 +29,5 @@ export const getPetById = async (id) => {
     } catch (error) {
         console.error('Error al obtener mascota:', error.response?.data || error.message);
         throw error;
-    }
+    }   
 };

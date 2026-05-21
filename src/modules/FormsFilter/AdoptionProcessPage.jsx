@@ -1,55 +1,43 @@
-import { useEffect,useState,useCallback } from "react";
-
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-
-getAdoptionProcesses,
-filterAdoptionProcesses
-
+    getAdoptionProcesses,
+    filterAdoptionProcesses,
+    updateProcessStatus
 }
-
 from "../../services/adoptionProcessService";
 
 import "./AdoptionProcessPage.css";
 
 const STATUS_OPTIONS=[
-
 {
 value:"ALL",
 label:"Todos los estados"
 },
-
 {
 value:"PENDING",
 label:"Pendiente"
 },
-
 {
 value:"IN_REVIEW",
 label:"En revisión"
 },
-
 {
 value:"APPROVED",
 label:"Aprobado"
 },
-
 {
 value:"REJECTED",
 label:"Rechazado"
 }
-
 ];
 
 const STATUS_LABELS={
 
 PENDING:"Pendiente",
-
 IN_REVIEW:"En revisión",
-
 APPROVED:"Aprobado",
-
 REJECTED:"Rechazado"
 
 };
@@ -69,17 +57,13 @@ function StatusBadge({status}){
 return(
 
 <span className={`ap-badge ap-badge--${status}`}>
-
 {
-
 STATUS_LABELS[status]
 ||
 status
 ||
 "—"
-
 }
-
 </span>
 
 )
@@ -89,86 +73,60 @@ status
 function ProcessCard({
 
 process:p,
-index
+index,
+onApprove,
+onReject
 
 }){
 
 const adopterName=
-
 [
 p.adopter?.name,
 p.adopter?.lastName
 ]
-
 .filter(Boolean)
-
 .join(" ")
-
 ||
-
 "—";
 
 const petName=
 p.pet?.name||"—";
 
 const petSpecies=
-
 p.pet?.species
-
 ?
-
 ` · ${p.pet.species}`
-
 :
-
 "";
 
 const vetName=
-
 [
 p.veterinarian?.name,
 p.veterinarian?.lastName
 ]
-
 .filter(Boolean)
-
 .join(" ")
-
 ||
-
 "—";
 
 const reqId=
 p.request?.id||"—";
 
 const formattedDate=
-
 p.requestDate
-
 ?
-
 new Date(
-
 p.requestDate
-
 )
-
 .toLocaleDateString(
-
 "es-CO",
-
 {
-
 day:"2-digit",
 month:"short",
 year:"numeric"
-
 }
-
 )
-
 :
-
 "—";
 
 return(
@@ -176,10 +134,8 @@ return(
 <div
 className="ap-process-card"
 style={{
-
 animationDelay:
 `${index*40}ms`
-
 }}
 >
 
@@ -195,9 +151,7 @@ animationDelay:
 
 <div className="ap-process-card__id">
 
-Solicitud #
-
-{reqId}
+Solicitud #{reqId}
 
 </div>
 
@@ -210,19 +164,13 @@ status={p.status}
 </div>
 
 <div className="ap-info-item">
-
 <span className="ap-info-item__label">
-
 Mascota
-
 </span>
 
 <span>
-
 {petName}
-
 {petSpecies}
-
 </span>
 
 </div>
@@ -230,15 +178,11 @@ Mascota
 <div className="ap-info-item">
 
 <span className="ap-info-item__label">
-
 Veterinario
-
 </span>
 
 <span>
-
 {vetName}
-
 </span>
 
 </div>
@@ -246,15 +190,11 @@ Veterinario
 <div className="ap-info-item">
 
 <span className="ap-info-item__label">
-
 Fecha
-
 </span>
 
 <span>
-
 {formattedDate}
-
 </span>
 
 </div>
@@ -262,24 +202,50 @@ Fecha
 <div className="ap-info-item">
 
 <span className="ap-info-item__label">
-
 Email
-
 </span>
 
 <span>
+{
+p.adopter?.email
+||
+"—"
+}
+</span>
+
+</div>
+
+<div
+style={{
+display:"flex",
+gap:"10px",
+marginTop:"15px"
+}}
+>
 
 {
+p.status!=="APPROVED" &&
 
-p.adopter?.email
-
-||
-
-"—"
+<button
+className="saveButton"
+onClick={()=>onApprove(p)}
+>
+Aprobar
+</button>
 
 }
 
-</span>
+{
+p.status!=="REJECTED" &&
+
+<button
+className="clearButton"
+onClick={()=>onReject(p)}
+>
+Rechazar
+</button>
+
+}
 
 </div>
 
@@ -294,49 +260,36 @@ export default function AdoptionProcessPage(){
 const navigate=useNavigate();
 
 const [all,setAll]=useState([]);
-
 const [filtered,setFiltered]=useState([]);
-
 const [filters,setFilters]=useState(
-
 EMPTY_FILTERS
-
 );
 
 const [loading,setLoading]=useState(true);
-
 const [error,setError]=useState(null);
 
 const loadData=
-
 useCallback(
-
 async()=>{
 
 setLoading(true);
-
 setError(null);
 
 try{
 
 const data=
-
 await getAdoptionProcesses();
 
 setAll(data);
 
 }
-
 catch(err){
 
 setError(
-
 err.message
-
 );
 
 }
-
 finally{
 
 setLoading(false);
@@ -344,9 +297,7 @@ setLoading(false);
 }
 
 },
-
 []
-
 );
 
 useEffect(()=>{
@@ -354,7 +305,6 @@ useEffect(()=>{
 loadData();
 
 },
-
 [loadData]);
 
 useEffect(()=>{
@@ -362,22 +312,59 @@ useEffect(()=>{
 setFiltered(
 
 filterAdoptionProcesses(
-
 all,
 filters
-
 )
 
 );
 
 },
-
 [all,filters]);
 
+const approve=async(process)=>{
+
+try{
+
+await updateProcessStatus(
+process.id,
+process,
+"APPROVED"
+);
+
+loadData();
+
+}
+catch(err){
+
+alert(err.message);
+
+}
+
+};
+
+const reject=async(process)=>{
+
+try{
+
+await updateProcessStatus(
+process.id,
+process,
+"REJECTED"
+);
+
+loadData();
+
+}
+catch(err){
+
+alert(err.message);
+
+}
+
+};
+
 const handleChange=
-
 (field)=>
-
 (e)=>{
 
 setFilters(prev=>({
@@ -385,25 +372,9 @@ setFilters(prev=>({
 ...prev,
 
 [field]:
-
 e.target.value
 
 }))
-
-};
-
-const applyFilters=()=>{
-
-setFiltered(
-
-filterAdoptionProcesses(
-
-all,
-filters
-
-)
-
-)
 
 };
 
@@ -457,8 +428,7 @@ Procesos de Adopción 📋
 
 <p>
 
-Gestiona y revisa
-solicitudes de adopción.
+Gestiona y revisa solicitudes.
 
 </p>
 
@@ -490,7 +460,7 @@ className="topButton"
 onClick={loadData}
 >
 
-✓
+⟳
 
 </button>
 
@@ -514,22 +484,6 @@ onChange={handleChange(
 )}
 />
 
-<input
-type="date"
-value={filters.dateFrom}
-onChange={handleChange(
-"dateFrom"
-)}
-/>
-
-<input
-type="date"
-value={filters.dateTo}
-onChange={handleChange(
-"dateTo"
-)}
-/>
-
 <select
 value={filters.status}
 onChange={handleChange(
@@ -538,7 +492,6 @@ onChange={handleChange(
 >
 
 {
-
 STATUS_OPTIONS.map(op=>(
 
 <option
@@ -551,54 +504,29 @@ value={op.value}
 </option>
 
 ))
-
 }
 
 </select>
 
 </div>
 
-<button
-className="saveButton"
-onClick={applyFilters}
->
-
-Filtrar Procesos
-
-</button>
-
 <div className="resultsHeader">
 
 <p>
 
 <strong>
-
 {filtered.length}
-
 </strong>
 
 de
 
 <strong>
-
 {all.length}
-
 </strong>
 
 procesos
 
 </p>
-
-<button
-className="clearButton"
-onClick={()=>setFilters(
-EMPTY_FILTERS
-)}
->
-
-Limpiar
-
-</button>
 
 </div>
 
@@ -610,7 +538,7 @@ loading
 
 <div className="emptyState">
 
-Cargando procesos...
+Cargando...
 
 </div>
 
@@ -634,7 +562,7 @@ filtered.length===0
 
 <div className="emptyState">
 
-🔍 Sin resultados
+Sin procesos
 
 </div>
 
@@ -650,6 +578,8 @@ filtered.map((p,i)=>(
 key={p.id||i}
 process={p}
 index={i}
+onApprove={approve}
+onReject={reject}
 />
 
 ))
